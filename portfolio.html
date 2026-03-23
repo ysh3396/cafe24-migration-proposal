@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포트폴리오 — Gravity Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c50: #eff6ff;   --c100: #dbeafe;  --c200: #bfdbfe;
+    --c300: #93c5fd;  --c400: #60a5fa;  --c500: #3b82f6;
+    --c600: #2563eb;  --c700: #1d4ed8;  --c800: #1e3a5f;
+    --c900: #172554;  --c950: #0f1729;
+    --teal: #14b8a6;  --light-bg: #f8fafc;  --dark: #0f172a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #ffffff;
+    color: #374151;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 100;
+    padding: 0 40px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-weight: 800; font-size: 16px; color: #111827;
+  }
+  .nav-logo .accent { color: var(--c600); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    text-decoration: none; color: #6b7280; font-size: 14px; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #111827; }
+
+  /* Hero */
+  .hero {
+    min-height: 80vh;
+    display: flex; align-items: center;
+    padding: 120px 40px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero-content { max-width: 700px; }
+  .hero-badge {
+    display: inline-block;
+    font-size: 13px; font-weight: 600;
+    color: var(--c600);
+    background: var(--c50);
+    border: 1px solid var(--c100);
+    border-radius: 100px;
+    padding: 6px 16px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: -2px;
+    color: #111827;
+    margin-bottom: 20px;
+  }
+  .hero h1 .accent { color: var(--c600); }
+  .hero-desc {
+    font-size: 17px; color: #6b7280;
+    max-width: 560px;
+    line-height: 1.9;
+    margin-bottom: 48px;
+  }
+  .hero-desc strong { color: #111827; font-weight: 700; }
+  .hero-metrics {
+    display: flex; gap: 48px; flex-wrap: wrap;
+  }
+  .hero-metric {
+    border-left: 3px solid var(--c100);
+    padding-left: 20px;
+  }
+  .hero-metric .val {
+    font-size: 32px; font-weight: 900; color: var(--c600);
+    letter-spacing: -1px;
+  }
+  .hero-metric .desc {
+    font-size: 13px; color: #9ca3af;
+    margin-top: 2px;
+  }
+
+  /* Sections */
+  section { padding: 100px 40px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 13px; font-weight: 700; color: var(--c600);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.3;
+    color: #111827;
+    margin-bottom: 12px;
+  }
+  .section-desc {
+    font-size: 16px; color: #9ca3af;
+    max-width: 560px; line-height: 1.8;
+    margin-bottom: 56px;
+  }
+
+  /* Experience Timeline */
+  .exp-section { background: #f9fafb; }
+  .timeline {
+    display: flex; flex-direction: column;
+    gap: 0;
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 40px;
+    padding: 36px 0;
+    border-bottom: 1px solid #e5e7eb;
+    position: relative;
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date {
+    font-size: 13px; color: #9ca3af; font-weight: 500;
+    text-align: right;
+    padding-top: 4px;
+    line-height: 1.8;
+  }
+  .exp-content { padding-left: 24px; border-left: 2px solid #e5e7eb; }
+  .exp-item.current .exp-content { border-left-color: var(--c600); }
+  .exp-company {
+    font-size: 20px; font-weight: 800; color: #111827;
+    margin-bottom: 2px;
+  }
+  .exp-role {
+    font-size: 13px; color: var(--c600); font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .exp-desc-text {
+    font-size: 15px; color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .exp-highlights {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 14px;
+  }
+  .exp-highlight {
+    font-size: 14px; color: #374151;
+    display: flex; align-items: flex-start; gap: 8px;
+    line-height: 1.6;
+  }
+  .exp-highlight::before {
+    content: '\2022';
+    color: #d1d5db;
+    font-size: 14px;
+    margin-top: 1px;
+    min-width: 10px;
+  }
+  .exp-result {
+    font-size: 13px; font-weight: 600;
+    color: var(--c600);
+    background: var(--c50);
+    border: 1px solid var(--c100);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: inline-block;
+  }
+  .exp-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .exp-tag {
+    font-size: 12px; color: #6b7280;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 4px 10px;
+  }
+
+  /* Projects */
+  .projects-section { background: #ffffff; }
+  .project-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-bottom: 100px;
+    padding-bottom: 100px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .project-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .project-card.reverse { direction: rtl; }
+  .project-card.reverse > * { direction: ltr; }
+  .project-info h3 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800; color: #111827;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .project-info p {
+    font-size: 15px; color: #6b7280;
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+  .project-tag {
+    display: inline-block;
+    font-size: 12px; font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .project-tag.app { background: var(--c50); color: var(--c700); }
+  .project-tag.web { background: var(--c50); color: var(--c700); }
+
+  .tech-layers { margin-bottom: 24px; }
+  .tech-layer {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+  }
+  .tech-layer-title {
+    font-size: 13px; font-weight: 700; color: var(--c800);
+    margin-bottom: 8px;
+  }
+  .tech-layer-items {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .tech-layer-item {
+    font-size: 13px; color: #6b7280;
+    padding-left: 12px;
+    border-left: 2px solid var(--c200);
+    line-height: 1.6;
+  }
+
+  .project-tech {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .project-tech span {
+    font-size: 12px; font-weight: 600;
+    color: var(--c800);
+    background: var(--c50);
+    border: 1px solid var(--c100);
+    border-radius: 6px;
+    padding: 4px 10px;
+  }
+
+  /* Mockups */
+  .mockup-label {
+    font-size: 12px; font-weight: 600;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mockup-label.mine { color: var(--c600); }
+
+  .web-mockup {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #e5e7eb;
+    box-shadow: 0 8px 32px rgba(0,0,0,.08);
+    background: #fff;
+  }
+  .web-toolbar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 14px;
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .web-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .web-dot.r { background: #fca5a5; }
+  .web-dot.y { background: #fcd34d; }
+  .web-dot.g { background: #86efac; }
+  .web-url {
+    margin-left: 8px;
+    font-size: 11px; color: #9ca3af;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 2px 10px;
+    flex: 1;
+  }
+  .web-mockup img { width: 100%; display: block; }
+
+  .phone-mockup {
+    width: 260px;
+    border-radius: 32px;
+    overflow: hidden;
+    border: 6px solid #1f2937;
+    box-shadow: 0 12px 40px rgba(0,0,0,.15);
+    background: #000;
+    position: relative;
+  }
+  .phone-mockup::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 24px;
+    background: #1f2937;
+    border-radius: 0 0 16px 16px;
+    z-index: 1;
+  }
+  .phone-mockup img { width: 100%; display: block; }
+  .phone-mockup-group {
+    display: flex; gap: 16px; justify-content: center;
+    align-items: flex-start;
+  }
+  .phone-mockup.small { transform: scale(0.85); transform-origin: top center; }
+
+  /* Relevance cards */
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .rel-card {
+    padding: 32px 28px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .rel-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(37,99,235,0.08);
+  }
+  .rel-card .icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    background: var(--c50);
+  }
+  .rel-card h3 {
+    font-size: 18px; font-weight: 800; color: #111827;
+    margin-bottom: 8px;
+  }
+  .rel-card p {
+    font-size: 14px; color: #6b7280;
+    line-height: 1.7;
+  }
+
+  /* Stack grid */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .stack-item {
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .stack-item:hover { transform: translateY(-2px); }
+  .stack-item .name {
+    font-size: 14px; font-weight: 700; color: #111827;
+    margin-bottom: 4px;
+  }
+  .stack-item .desc {
+    font-size: 12px; color: #9ca3af;
+  }
+
+  /* Team */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .team-card {
+    padding: 32px 24px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .team-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(37,99,235,0.08);
+  }
+  .team-name {
+    font-size: 20px; font-weight: 800; color: #111827;
+    margin-bottom: 4px;
+  }
+  .team-role {
+    font-size: 13px; font-weight: 600; color: var(--c600);
+    margin-bottom: 8px;
+  }
+  .team-edu {
+    font-size: 13px; color: #9ca3af;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .team-exp {
+    font-size: 13px; color: #6b7280;
+    line-height: 1.6;
+    text-align: left;
+    margin-bottom: 14px;
+  }
+  .team-stack {
+    display: flex; gap: 5px; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .team-stack span {
+    font-size: 11px; color: var(--c800);
+    background: var(--c50);
+    border: 1px solid var(--c100);
+    border-radius: 5px;
+    padding: 3px 8px;
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 100px 40px;
+    background: linear-gradient(135deg, var(--c950), var(--c800));
+    color: #fff;
+  }
+  .cta-section h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .cta-section p {
+    font-size: 17px;
+    color: var(--c300);
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; }
+  .cta-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    border-radius: 12px;
+    font-size: 15px; font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: var(--c400);
+    color: #fff;
+    border: none;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.25);
+  }
+  .cta-btn.outline {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.3);
+    color: #fff;
+  }
+  .cta-btn.outline:hover {
+    border-color: rgba(255,255,255,.6);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.12);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 40px;
+    background: var(--c950);
+    color: rgba(255,255,255,.4);
+    font-size: 13px;
+  }
+
+  /* Fade-up animation */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .project-card { grid-template-columns: 1fr; gap: 32px; }
+    .project-card.reverse { direction: ltr; }
+    .rel-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .phone-mockup-group { flex-direction: column; align-items: center; }
+    .phone-mockup.small { transform: none; }
+    .hero-metrics { gap: 24px; }
+    .hero { padding: 100px 20px 60px; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .exp-item { grid-template-columns: 1fr; gap: 8px; }
+    .exp-date { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .stack-grid { grid-template-columns: 1fr; }
+    .rel-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-logo">Gravity Labs <span class="accent">Portfolio</span></div>
+  <div class="nav-links">
+    <a href="#projects">프로젝트</a>
+    <a href="#relevance">적합성</a>
+    <a href="#stack">기술 스택</a>
+    <a href="#team">팀</a>
+    <a href="#experience">경력</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Commerce Engineering</div>
+    <h1>다양한 웹 서비스 경험의<br><span class="accent">풀스택 커머스 전문</span> 엔지니어링 팀</h1>
+    <p class="hero-desc">
+      <strong>GMV 530억</strong> 규모의 이커머스 플랫폼을 0에서 1까지 구축하고,
+      대규모 커머스 시스템을 설계했던 <strong>쿠팡 출신 Engineering Manager</strong>도 함께합니다.
+      상품 관리, 결제, 주문, 정산 &mdash; <strong>커머스의 모든 것을 경험한</strong> 팀입니다.
+      포트폴리오 이외에도 <strong>경험 많은 개발자/디자이너가 함께합니다.</strong>
+    </p>
+    <p style="font-size:13px; color:#9ca3af; margin-bottom:12px;">협업 및 소속 서비스 지표</p>
+    <div class="hero-metrics">
+      <div class="hero-metric">
+        <div class="val">310만</div>
+        <div class="desc">MAU (올웨이즈 커머스)</div>
+      </div>
+      <div class="hero-metric">
+        <div class="val">130만</div>
+        <div class="desc">MAU (머니워크)</div>
+      </div>
+      <div class="hero-metric">
+        <div class="val">80%</div>
+        <div class="desc">월간 리텐션</div>
+      </div>
+      <div class="hero-metric">
+        <div class="val">530억</div>
+        <div class="desc">월 거래액</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="projects-section" id="projects">
+  <div class="section-inner">
+    <div class="section-label">주요 프로젝트</div>
+    <div class="section-title">직접 설계하고 구현한 서비스들</div>
+    <p class="section-desc">실제 출시된 서비스의 기술 구현 사례입니다.</p>
+
+    <!-- Alwayz -->
+    <div class="project-card fade-up">
+      <div class="project-info">
+        <div class="project-tag app">0&rarr;1 풀스택 구현 &mdash; MERN + Native (2022~2023)</div>
+        <h3>올웨이즈 (Alwayz)</h3>
+        <p>
+          가입자 700만, MAU 310만의 대규모 디스커버리 이커머스 플랫폼의 핵심 서비스를 0에서 1까지 직접 구현했습니다.
+          MERN 스택 기반 서버/클라이언트 구축, Native 모듈(Android: Java / iOS: Objective-C)
+          직접 개발로 월 GMV 530억 규모의 커머스 생태계에 기여했습니다.
+        </p>
+        <div class="tech-layers">
+          <div class="tech-layer">
+            <div class="tech-layer-title">Native Module &mdash; Android (Java) / iOS (Objective-C)</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">Android: Java 기반 Native 모듈 직접 구현 (커머스 앱 내 서비스 연동)</div>
+              <div class="tech-layer-item">iOS: CMPedometer (Objective-C) 기반 걸음수 트래킹 모듈 직접 구현</div>
+              <div class="tech-layer-item">Alwayz 앱(700만 가입자) 메인 커머스 플로우에 서비스 연동</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">Frontend &mdash; React</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">걸음수 원형 게이지 커스텀 컴포넌트 + 선물상자 오픈 애니메이션</div>
+              <div class="tech-layer-item">출석 달력 UI + 일일 걷기 미션 인터랙션</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">Backend &mdash; MongoDB + Express.js + Node.js</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">MongoDB 기반 골드 포인트 적립/차감/교환 시스템 (트랜잭션 무결성)</div>
+              <div class="tech-layer-item">MAU 310만 / DAU 150만 / 월 GMV 530억 / 리텐션 80% 트래픽 처리</div>
+            </div>
+          </div>
+        </div>
+        <div class="project-tech">
+          <span>MongoDB</span><span>Express.js</span><span>React</span><span>Node.js</span><span>Java</span><span>Objective-C</span>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label mine">&#x2714; Alwayz 이커머스 플랫폼</div>
+        <div class="web-mockup">
+          <div class="web-toolbar">
+            <div class="web-dot r"></div><div class="web-dot y"></div><div class="web-dot g"></div>
+            <div class="web-url">alwayz.co.kr</div>
+          </div>
+          <img src="portfolio-images/alwayz-commerce.jpg" alt="올웨이즈 이커머스 플랫폼">
+        </div>
+      </div>
+    </div>
+
+    <!-- Doeat -->
+    <div class="project-card reverse fade-up">
+      <div class="project-info">
+        <div class="project-tag web">배달 커머스 &mdash; PM (Rider &amp; Merchant Squad)</div>
+        <h3>두잇 (Doeat)</h3>
+        <p>
+          1인 가구 대상 배달 커머스 플랫폼. 한국 최초 개별 주문 무료 배달 서비스로,
+          물류 시스템 구축부터 머천트(판매자) 관리까지 커머스 운영 전반을 담당했습니다.
+        </p>
+        <div class="tech-layers">
+          <div class="tech-layer">
+            <div class="tech-layer-title">Merchant Squad &mdash; 판매자 관리 &amp; 커머스 운영</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">데이터 기반 판매 전략 수립 &rarr; 주문 취소율 대폭 감소</div>
+              <div class="tech-layer-item">이탈 상점 복구 프로세스 설계 &rarr; 상점 해지율 대폭 감소</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">Rider Squad &mdash; 물류 시스템 &amp; 배차</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">3PL 물류 시스템 구축 &rarr; 배달 지연 감소, 배송 품질 개선</div>
+              <div class="tech-layer-item">자동 배차 시스템 고도화 &mdash; 라이더 효율 최적화</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">Tech Stack &mdash; Backend &amp; Infrastructure</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">React Native (iOS / Android) + React 웹 어드민</div>
+              <div class="tech-layer-item">Node.js + Express.js REST API, 실시간 배차 엔진</div>
+              <div class="tech-layer-item">PostgreSQL + Redis (주문/결제/정산 트랜잭션)</div>
+              <div class="tech-layer-item">AWS (ECS, RDS, S3, CloudFront) + CI/CD</div>
+            </div>
+          </div>
+        </div>
+        <div class="project-tech">
+          <span>React Native</span><span>React</span><span>Node.js</span><span>PostgreSQL</span><span>Redis</span><span>AWS</span>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label mine">&#x2714; Doeat 배달 커머스 플랫폼</div>
+        <div class="web-mockup">
+          <div class="web-toolbar">
+            <div class="web-dot r"></div><div class="web-dot y"></div><div class="web-dot g"></div>
+            <div class="web-url">doeat.co.kr</div>
+          </div>
+          <img src="portfolio-images/doeat.avif" alt="두잇 배달 커머스">
+        </div>
+      </div>
+    </div>
+
+    <!-- TicketMatch -->
+    <div class="project-card fade-up">
+      <div class="project-info">
+        <div class="project-tag web">풀스택 &mdash; Next.js 15 + FastAPI + Supabase</div>
+        <h3>티켓매치 (TicketMatch)</h3>
+        <p>
+          국내 4대 티켓 플랫폼(멜론, 인터파크, 티켓링크, YES24)의 공연 이벤트를 자동 수집하고,
+          대리 티켓팅 전문가와 사용자를 매칭하는 서비스를 기획부터 개발까지 직접 구축했습니다.
+        </p>
+        <div class="tech-layers">
+          <div class="tech-layer">
+            <div class="tech-layer-title">Frontend &mdash; Next.js 15 + React 19 + TypeScript</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">SSR/SSG 하이브리드 렌더링, App Router 다국어 라우팅</div>
+              <div class="tech-layer-item">Supabase Auth 인증 (이메일 + OAuth, PKCE flow)</div>
+              <div class="tech-layer-item">토스페이먼츠 결제 연동</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">Backend &mdash; FastAPI + Supabase</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">FastAPI 백엔드, Supabase DB &amp; 인증 연동</div>
+              <div class="tech-layer-item">4대 플랫폼 자동 크롤링 파이프라인</div>
+            </div>
+          </div>
+        </div>
+        <div class="project-tech">
+          <span>Next.js 15</span><span>React 19</span><span>TypeScript</span><span>FastAPI</span><span>Supabase</span>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label mine">&#x2714; TicketMatch 티켓 자동화</div>
+        <div class="web-mockup">
+          <div class="web-toolbar">
+            <div class="web-dot r"></div><div class="web-dot y"></div><div class="web-dot g"></div>
+            <div class="web-url">ticketmatch.kr</div>
+          </div>
+          <img src="portfolio-images/ticketmatch-main.PNG" alt="티켓매치 메인">
+        </div>
+      </div>
+    </div>
+
+    <!-- MoneyWalk -->
+    <div class="project-card reverse fade-up">
+      <div class="project-info">
+        <div class="project-tag app">헬스케어 리워드 &mdash; KR / JP / US 글로벌</div>
+        <h3>머니워크 (MoneyWalk)</h3>
+        <p>
+          걸음 수 기반 헬스케어 리워드 앱입니다. 한국/일본/미국 3개국 동시 서비스를 운영하며
+          글로벌 사용자 130만 명을 확보했습니다.
+        </p>
+        <div class="tech-layers">
+          <div class="tech-layer">
+            <div class="tech-layer-title">핵심 성과</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">Streaks 기능 &rarr; 참여율 +30% 성장</div>
+              <div class="tech-layer-item">Push 알림 &rarr; D7 리텐션 +10%</div>
+              <div class="tech-layer-item">Japan 시장 매출 2배 성장</div>
+              <div class="tech-layer-item">i18n 다국어 지원 (한/일/영)</div>
+            </div>
+          </div>
+        </div>
+        <div class="project-tech">
+          <span>React Native</span><span>iOS</span><span>Android</span><span>FCM + APNs</span><span>i18n</span>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label mine">&#x2714; MoneyWalk 헬스케어 리워드</div>
+        <div class="phone-mockup-group">
+          <div class="phone-mockup">
+            <img src="portfolio-images/moneywalk-home-dev.PNG" alt="머니워크 홈">
+          </div>
+          <div class="phone-mockup small">
+            <img src="portfolio-images/moneywalk-streak25.PNG" alt="머니워크 스트릭">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Relevance -->
+<section style="background:#f9fafb;" id="relevance">
+  <div class="section-inner">
+    <div class="section-label">프로젝트 적합성</div>
+    <div class="section-title">이 프로젝트에 딱 맞는 경험</div>
+    <p class="section-desc">CAFE24 독립몰 이관에 필요한 핵심 역량을 갖추고 있습니다.</p>
+    <div class="rel-grid">
+      <div class="rel-card fade-up">
+        <div class="icon">💳</div>
+        <h3>결제/정산 시스템</h3>
+        <p>토스페이먼츠 PG 연동, 무통장 입금 자동확인, 세금계산서 API 연동 경험. PostgreSQL 기반 트랜잭션 무결성 보장.</p>
+      </div>
+      <div class="rel-card fade-up">
+        <div class="icon">🏭</div>
+        <h3>B2B 커머스</h3>
+        <p>승인제 회원가입 워크플로우, 가격 비노출 정책, 회원 등급제 설계 및 구현 경험. 도매/소매 분리 운영 가능.</p>
+      </div>
+      <div class="rel-card fade-up">
+        <div class="icon">🔄</div>
+        <h3>데이터 이관</h3>
+        <p>CAFE24 DB 추출, 스키마 매핑, 무결성 검증을 거친 안전한 마이그레이션. 기존 회원 ID 유지 전략.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tech Stack -->
+<section id="stack">
+  <div class="section-inner">
+    <div class="section-label">기술 스택</div>
+    <div class="section-title">프로젝트에 활용할 기술</div>
+    <p class="section-desc">검증된 기술 스택으로 안정적인 서비스를 구축합니다.</p>
+    <div class="stack-grid">
+      <div class="stack-item fade-up"><div class="name">Next.js 14+</div><div class="desc">SSR + App Router</div></div>
+      <div class="stack-item fade-up"><div class="name">TypeScript</div><div class="desc">타입 안정성</div></div>
+      <div class="stack-item fade-up"><div class="name">Node.js</div><div class="desc">백엔드 런타임</div></div>
+      <div class="stack-item fade-up"><div class="name">Nest.js</div><div class="desc">엔터프라이즈 API</div></div>
+      <div class="stack-item fade-up"><div class="name">PostgreSQL</div><div class="desc">관계형 DB</div></div>
+      <div class="stack-item fade-up"><div class="name">Redis</div><div class="desc">캐싱 &amp; 세션</div></div>
+      <div class="stack-item fade-up"><div class="name">AWS</div><div class="desc">EC2/RDS/S3</div></div>
+      <div class="stack-item fade-up"><div class="name">Docker</div><div class="desc">컨테이너화</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section style="background:#f9fafb;" id="team">
+  <div class="section-inner">
+    <div class="section-label">프로젝트 팀</div>
+    <div class="section-title">커머스 전문 6인 팀</div>
+    <p class="section-desc">포트폴리오 이외에도 경험 많은 개발자/디자이너가 함께합니다.</p>
+
+    <div class="team-grid">
+      <div class="team-card fade-up">
+        <div class="team-name">Jamie (양승현)</div>
+        <div class="team-role">프로젝트 리드 · Product Engineer</div>
+        <div class="team-edu">고려대학교 화학과 · 경기과학고등학교</div>
+        <div class="team-exp">
+          Gravity Labs (머니워크) Product Lead<br>
+          <strong style="color:var(--c600);">Levit (Alwayz) &mdash; 700만 이커머스 핵심 서비스 0&rarr;1 풀스택 개발</strong><br>
+          Doeat (두잇) Product Owner<br>
+          Stealth Startup Co-Founder
+        </div>
+        <div class="team-stack">
+          <span>React Native</span><span>Node.js</span><span>MongoDB</span><span>Java</span><span>Objective-C</span>
+        </div>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="team-name">Tom</div>
+        <div class="team-role">커머스 아키텍트 · Lead Engineer</div>
+        <div class="team-edu">KAIST 정보통신공학</div>
+        <div class="team-exp">
+          <strong style="color:var(--c600);">Coupang Engineering Manager</strong> &mdash; 대규모 이커머스 시스템 설계<br>
+          Gravity Labs Lead Software Engineer<br>
+          15년+ 개발 경력 (이커머스/핀테크/백엔드)
+        </div>
+        <div class="team-stack">
+          <span>Node.js</span><span>TypeScript</span><span>PHP</span><span>MySQL</span><span>AWS</span><span>Kubernetes</span>
+        </div>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="team-name">Joon</div>
+        <div class="team-role">데이터 엔지니어</div>
+        <div class="team-edu">KAIST 석사 (AI/Meta Learning)<br>성균관대학교 산업공학</div>
+        <div class="team-exp">
+          Gravity Labs Software Developer<br>
+          데이터 파이프라인 설계 · DB 이관 전문<br>
+          커머스 백엔드 개발
+        </div>
+        <div class="team-stack">
+          <span>Spring</span><span>Kotlin</span><span>Node.js</span><span>MongoDB</span><span>Java</span>
+        </div>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="team-name">Sera</div>
+        <div class="team-role">UI/UX 디자이너</div>
+        <div class="team-edu">쇼핑몰 UI 전문 · 10년+ 경력</div>
+        <div class="team-exp">
+          B2B/B2C 커머스 디자인 다수 경험<br>
+          반응형 웹 &amp; 모바일 UI 설계<br>
+          브랜드 아이덴티티 &amp; 디자인 시스템 구축
+        </div>
+        <div class="team-stack">
+          <span>Figma</span><span>Sketch</span><span>Adobe XD</span><span>Photoshop</span>
+        </div>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="team-name">Daniel</div>
+        <div class="team-role">백엔드 개발자</div>
+        <div class="team-edu">결제/정산 시스템 전문 · 8년+ 경력</div>
+        <div class="team-exp">
+          PG 연동 (토스페이먼츠, NHN KCP) 경험<br>
+          세금계산서 API · 현금영수증 자동발행<br>
+          PostgreSQL · Node.js 백엔드 아키텍처
+        </div>
+        <div class="team-stack">
+          <span>Node.js</span><span>PostgreSQL</span><span>Redis</span><span>Docker</span><span>AWS</span>
+        </div>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="team-name">Grace</div>
+        <div class="team-role">PM / QA</div>
+        <div class="team-edu">이커머스 PM 경력 · QA 겸임</div>
+        <div class="team-exp">
+          쇼핑몰 이관 프로젝트 다수 경험<br>
+          품질 관리 · 통합 테스트 · UAT 진행<br>
+          일정 관리 · 고객 커뮤니케이션
+        </div>
+        <div class="team-stack">
+          <span>Jira</span><span>Notion</span><span>Slack</span><span>QA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience & Education -->
+<section class="exp-section" id="experience">
+  <div class="section-inner">
+    <div class="section-label">경력 (대표)</div>
+    <div class="section-title">경력 (대표)</div>
+    <p class="section-desc">스타트업에서 서비스를 0에서 1로 만들고, 글로벌로 확장한 경험</p>
+
+    <div class="timeline">
+      <div class="exp-item fade-up">
+        <div class="exp-date">2025.04 &mdash;<br>2025.11</div>
+        <div class="exp-content">
+          <div class="exp-company">Gravity Labs (머니워크)</div>
+          <div class="exp-role">Product Lead</div>
+          <div class="exp-desc-text">걸음수 기반 헬스케어 리워드 앱. 한국/일본/미국 3개국 서비스 운영.</div>
+          <div class="exp-highlights">
+            <div class="exp-highlight">Discovery Squad Lead &mdash; 온보딩 &amp; 홈탭 리디자인</div>
+            <div class="exp-highlight">Streaks 기능 런칭 &rarr; 참여율 +30%</div>
+            <div class="exp-highlight">Japan Squad Lead &mdash; 매출 2배 성장</div>
+          </div>
+          <div class="exp-result">KR 80만 + JP 40만 + US 10만 = 130만 유저</div>
+          <div class="exp-tags"><span class="exp-tag">iOS</span><span class="exp-tag">Android</span><span class="exp-tag">이커머스</span><span class="exp-tag">글로벌</span></div>
+        </div>
+      </div>
+
+      <div class="exp-item fade-up">
+        <div class="exp-date">2023.09 &mdash;<br>2024.06</div>
+        <div class="exp-content">
+          <div class="exp-company">Doeat (두잇)</div>
+          <div class="exp-role">PM &mdash; Rider Squad / Merchant Squad</div>
+          <div class="exp-desc-text">1인 가구 배달 커머스 앱. 한국 최초 개별 주문 무료 배달 서비스.</div>
+          <div class="exp-highlights">
+            <div class="exp-highlight">Merchant Squad &mdash; 데이터 기반 판매 전략, 주문 취소율 감소</div>
+            <div class="exp-highlight">Rider Squad &mdash; 3PL 시스템 구축, 자동 배차</div>
+          </div>
+          <div class="exp-result">GMV 리텐션 70% + Unit Economics 흑자</div>
+          <div class="exp-tags"><span class="exp-tag">커머스</span><span class="exp-tag">물류</span><span class="exp-tag">데이터 분석</span></div>
+        </div>
+      </div>
+
+      <div class="exp-item fade-up">
+        <div class="exp-date">2023.01 &mdash;<br>2023.09</div>
+        <div class="exp-content">
+          <div class="exp-company">Levit (레브잇) &mdash; Alwayz</div>
+          <div class="exp-role">PS / Growth Squad</div>
+          <div class="exp-desc-text">디스커버리 기반 이커머스 플랫폼. 가입자 700만, 250만 MAU.</div>
+          <div class="exp-highlights">
+            <div class="exp-highlight">이커머스 핵심 서비스 0&rarr;1 기획 및 개발</div>
+            <div class="exp-highlight">MERN 스택 (MongoDB, Express.js, React, Node.js)</div>
+            <div class="exp-highlight">Native 모듈 직접 개발 (Android: Java / iOS: Objective-C)</div>
+          </div>
+          <div class="exp-result">MAU 310만 / DAU 150만 / 월 GMV 530억 / 리텐션 80%</div>
+          <div class="exp-tags"><span class="exp-tag">MongoDB</span><span class="exp-tag">Express.js</span><span class="exp-tag">React</span><span class="exp-tag">Node.js</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>함께 만들어 가겠습니다</h2>
+  <p>CAFE24 독립몰 이관의 첫 걸음을 Gravity Labs가 함께합니다.</p>
+  <div class="cta-buttons">
+    <a class="cta-btn" href="presentation.html" target="_blank">제안서 보기</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Gravity Labs Portfolio</p>
+</footer>
+
+<script>
+// Fade-up on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
