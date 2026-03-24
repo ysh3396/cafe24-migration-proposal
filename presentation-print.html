@@ -16,7 +16,7 @@
     --teal: #14b8a6;  --light-bg: #f8fafc;  --dark: #0f172a;
   }
   @page {
-    size: A4;
+    size: A4 landscape;
     margin: 0;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,8 +31,9 @@
 
   /* Each page = one A4 slide */
   .page {
-    width: 210mm;
-    min-height: 297mm;
+    width: 297mm;
+    height: 210mm;
+    max-height: 210mm;
     margin: 0 auto;
     padding: 0;
     page-break-after: always;
@@ -43,11 +44,12 @@
 
   .page-inner {
     width: 100%;
-    min-height: 297mm;
+    height: 210mm;
     display: flex;
     flex-direction: column;
     padding: 48px;
     position: relative;
+    overflow: hidden;
   }
 
   /* Page number */
