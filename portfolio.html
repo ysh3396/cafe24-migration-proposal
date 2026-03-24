@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>포트폴리오 — Gravity Labs</title>
+<title>포트폴리오 — 원클릭사이트제작</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -68,12 +68,13 @@
     margin-bottom: 24px;
   }
   .hero h1 {
-    font-size: clamp(36px, 5vw, 56px);
+    font-size: clamp(28px, 4.2vw, 48px);
     font-weight: 900;
     line-height: 1.25;
     letter-spacing: -2px;
     color: #111827;
     margin-bottom: 20px;
+    white-space: nowrap;
   }
   .hero h1 .accent { color: var(--c600); }
   .hero-desc {
@@ -523,7 +524,7 @@
 
 <!-- Nav -->
 <nav class="nav">
-  <div class="nav-logo">Gravity Labs <span class="accent">Portfolio</span></div>
+  <div class="nav-logo">원클릭사이트제작 <span class="accent">Portfolio</span></div>
   <div class="nav-links">
     <a href="#projects">프로젝트</a>
     <a href="#relevance">적합성</a>
@@ -572,6 +573,55 @@
     <div class="section-label">주요 프로젝트</div>
     <div class="section-title">직접 설계하고 구현한 서비스들</div>
     <p class="section-desc">실제 출시된 서비스의 기술 구현 사례입니다.</p>
+
+    <!-- Dr.**** C - CAFE24 Migration -->
+    <div class="project-card fade-up">
+      <div class="project-info">
+        <div class="project-tag web">CAFE24 &rarr; 독립몰 이관 (2026.02)</div>
+        <h3>Dr.**** C (화장품 브랜드몰)</h3>
+        <p>
+          화장품 브랜드의 자사몰을 솔루션 기반으로 개발하고, 외부 AI 솔루션을 연동하여
+          스마트한 쇼핑 경험을 제공하는 프로젝트입니다. 관리자 페이지 커스터마이징과
+          성능 최적화까지 전체 프로세스를 수행했습니다.
+        </p>
+        <div class="tech-layers">
+          <div class="tech-layer">
+            <div class="tech-layer-title">솔루션 기반 자사몰 개발</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">Cafe24 / Shopify 솔루션 기반 자사몰 구축</div>
+              <div class="tech-layer-item">브랜드 아이덴티티에 맞는 커스텀 테마 &amp; UI 개발</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">AI 솔루션 연동 &amp; 관리자 커스터마이징</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">오픈 API 기반 외부 AI 솔루션 연동 (상품 추천, 검색 등)</div>
+              <div class="tech-layer-item">관리자 페이지에서 AI 모듈 관리 가능하도록 일부 커스터마이징</div>
+            </div>
+          </div>
+          <div class="tech-layer">
+            <div class="tech-layer-title">성능 최적화</div>
+            <div class="tech-layer-items">
+              <div class="tech-layer-item">성능 최적화 및 캐시 전략 적용</div>
+              <div class="tech-layer-item">페이지 로딩 속도 개선 &amp; 사용자 경험 향상</div>
+            </div>
+          </div>
+        </div>
+        <div class="project-tech">
+          <span>Cafe24</span><span>Shopify</span><span>AI API</span><span>캐시 최적화</span>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label mine">&#x2714; Dr.**** C 화장품 브랜드몰</div>
+        <div class="web-mockup">
+          <div class="web-toolbar">
+            <div class="web-dot r"></div><div class="web-dot y"></div><div class="web-dot g"></div>
+            <div class="web-url">dr***c.com</div>
+          </div>
+          <img src="portfolio-images/drbridc-main.png" alt="Dr.**** C 화장품 브랜드몰">
+        </div>
+      </div>
+    </div>
 
     <!-- Alwayz -->
     <div class="project-card fade-up">
@@ -773,8 +823,8 @@
       </div>
       <div class="rel-card fade-up">
         <div class="icon">🔄</div>
-        <h3>데이터 이관</h3>
-        <p>CAFE24 DB 추출, 스키마 매핑, 무결성 검증을 거친 안전한 마이그레이션. 기존 회원 ID 유지 전략.</p>
+        <h3>CAFE24 이관 실전 경험</h3>
+        <p>Dr.**** C 화장품몰의 CAFE24 &rarr; 독립몰 전환을 2026년 2월 완료. DB 추출, 스키마 매핑, 무결성 검증, 회원 ID 유지까지 전체 이관 프로세스를 직접 수행했습니다.</p>
       </div>
     </div>
   </div>
@@ -956,14 +1006,14 @@
 <!-- CTA -->
 <section class="cta-section">
   <h2>함께 만들어 가겠습니다</h2>
-  <p>CAFE24 독립몰 이관의 첫 걸음을 Gravity Labs가 함께합니다.</p>
+  <p>CAFE24 독립몰 이관의 첫 걸음을 원클릭사이트제작가 함께합니다.</p>
   <div class="cta-buttons">
     <a class="cta-btn" href="presentation.html" target="_blank">제안서 보기</a>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2026 Gravity Labs Portfolio</p>
+  <p>&copy; 2026 원클릭사이트제작 Portfolio</p>
 </footer>
 
 <script>
