@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAFE24 독립몰 이관 — 계약 미팅 체크리스트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Noto Sans KR', 'sans-serif'] },
+        colors: {
+          navy: { 50:'#eff6ff', 100:'#dbeafe', 200:'#bfdbfe', 300:'#93c5fd', 400:'#60a5fa', 500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8', 800:'#1e3a5f', 900:'#172554', 950:'#0f1729' },
+          teal: '#14b8a6', light: '#f8fafc', dark: '#0f172a',
+          amber: { 400:'#fbbf24', 500:'#f59e0b' },
+          red: { 400:'#f87171', 500:'#ef4444' },
+          green: { 400:'#4ade80', 500:'#22c55e' }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --c50:#eff6ff; --c100:#dbeafe; --c200:#bfdbfe; --c300:#93c5fd; --c400:#60a5fa;
+    --c500:#3b82f6; --c600:#2563eb; --c700:#1d4ed8; --c800:#1e3a5f; --c900:#172554; --c950:#0f1729;
+    --teal:#14b8a6; --light-bg:#f8fafc; --dark:#0f172a;
+    --amber:#f59e0b; --red:#ef4444; --green:#22c55e;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; font-family:'Noto Sans KR',sans-serif; background:var(--c950); overflow:hidden; height:100%; }
+  #deck { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  .slide { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transform:translateX(60px); transition:opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1); pointer-events:none; overflow:hidden; }
+  .slide.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+  .slide.prev { opacity:0; transform:translateX(-60px); }
+  #progress-bar { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--c400),var(--c300)); transition:width .4s ease; z-index:100; box-shadow:0 0 8px rgba(96,165,250,0.4); }
+  #nav { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:16px; z-index:100; }
+  .nav-btn { width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); backdrop-filter:blur(12px); color:#fff; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s, border-color .2s, transform .15s; }
+  .nav-btn:hover { background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.5); transform:scale(1.08); }
+  .nav-btn:active { transform:scale(.95); }
+  #counter { color:rgba(255,255,255,.7); font-size:13px; font-weight:500; min-width:56px; text-align:center; letter-spacing:.5px; }
+  .slide-inner { width:100vw; height:100vh; display:flex; flex-direction:column; position:relative; }
+  .section-pill { display:inline-block; padding:6px 18px; border-radius:99px; font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+  .heading-line { display:inline-block; position:relative; }
+  .heading-line::after { content:''; position:absolute; left:0; bottom:-4px; height:3px; width:100%; background:linear-gradient(90deg,var(--c400),var(--c300)); border-radius:2px; }
+  .scroll-content { overflow-y:auto; flex:1; }
+
+  /* Global size boost for readability */
+  .slide .text-xs { font-size:14px !important; line-height:1.6 !important; }
+  .slide .text-sm { font-size:16px !important; line-height:1.6 !important; }
+  .slide .text-base { font-size:18px !important; }
+  .slide .text-lg { font-size:22px !important; }
+  .slide .text-xl { font-size:28px !important; }
+  .slide .text-2xl { font-size:32px !important; }
+  .slide h3 { font-size:16px !important; }
+  .q-card { padding:20px !important; margin-bottom:14px !important; }
+  .q-card .font-bold { font-size:15px !important; }
+  .q-card p { font-size:14px !important; line-height:1.65 !important; }
+  .doc-tag { font-size:13px !important; padding:5px 14px !important; }
+  .badge { font-size:11px !important; padding:3px 10px !important; }
+  .risk-critical p, .risk-high p, .risk-medium p { font-size:14px !important; line-height:1.6 !important; }
+  table th { font-size:13px !important; }
+  table td { font-size:13px !important; }
+  .slide ul li { font-size:14px !important; line-height:1.7 !important; }
+  .scroll-content::-webkit-scrollbar { width:4px; }
+  .scroll-content::-webkit-scrollbar-track { background:transparent; }
+  .scroll-content::-webkit-scrollbar-thumb { background:rgba(255,255,255,.2); border-radius:4px; }
+  .risk-critical { background:rgba(239,68,68,.15); border:1px solid rgba(239,68,68,.3); }
+  .risk-high { background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.3); }
+  .risk-medium { background:rgba(96,165,250,.12); border:1px solid rgba(96,165,250,.3); }
+  .badge-critical { background:#ef4444; color:#fff; }
+  .badge-high { background:#f59e0b; color:#fff; }
+  .badge-medium { background:var(--c400); color:#fff; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; letter-spacing:.5px; }
+  .q-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:16px; margin-bottom:10px; }
+  .q-card:hover { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.2); }
+  .doc-tag { display:inline-block; padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; background:rgba(20,184,166,.15); color:#5eead4; border:1px solid rgba(20,184,166,.3); margin:2px; }
+  @media (max-width:768px) {
+    .slide-inner { padding:16px !important; }
+    .grid.grid-cols-3 { grid-template-columns:repeat(2,1fr) !important; }
+    .grid.grid-cols-2 { grid-template-columns:1fr !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="deck">
+
+<!-- SLIDE 1: Title -->
+<div class="slide active" id="s1">
+  <div class="slide-inner" style="background:linear-gradient(145deg,var(--c950) 0%,var(--c800) 55%,var(--c900) 100%);">
+    <div class="flex flex-col items-center justify-center flex-1 text-center px-8">
+      <div class="mb-6 text-7xl" style="filter:drop-shadow(0 0 24px rgba(96,165,250,0.4))">🏪</div>
+      <div class="section-pill mb-5" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">
+        PROJECT MEETING · 2026.03.25
+      </div>
+      <h1 class="font-black text-white mb-3" style="font-size:clamp(2rem,5vw,3.8rem);line-height:1.1;letter-spacing:-1px;">
+        CAFE24 독립몰 이관<br>프로젝트 협의
+      </h1>
+      <p class="font-light mb-2" style="font-size:clamp(.9rem,2vw,1.2rem);color:var(--c300);letter-spacing:2px;">
+        원클릭사이트제작이 제안드리는 이관 전략
+      </p>
+      <div class="mt-3 h-px w-48" style="background:linear-gradient(90deg,transparent,var(--c400),transparent)"></div>
+      <p class="mt-5 text-sm" style="color:rgba(255,255,255,.45);">3개 쇼핑몰 독립몰 전환 · 커스텀 개발</p>
+    </div>
+    <div class="flex justify-center pb-10 gap-10">
+      <div class="text-center"><div class="text-xl font-black" style="color:var(--c400)">1,500만원</div><div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">제안 금액</div></div>
+      <div class="text-center"><div class="text-xl font-black" style="color:var(--c400)">30일</div><div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">개발기간</div></div>
+      <div class="text-center"><div class="text-xl font-black" style="color:var(--c400)">6명</div><div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">전담 팀</div></div>
+      <div class="text-center"><div class="text-xl font-black" style="color:var(--c400)">Next.js</div><div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">기술 스택</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: Company Intro -->
+<div class="slide" id="s2">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex items-center px-14 pt-10 pb-0 shrink-0">
+      <div class="section-pill" style="background:var(--c100);color:var(--c800);border:1px solid var(--c200)">ABOUT US</div>
+    </div>
+    <div class="flex flex-col justify-center flex-1 px-14 pb-8">
+      <h2 class="font-black mb-6" style="font-size:clamp(1.6rem,3vw,2.4rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">원클릭사이트제작 소개</span>
+      </h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div>
+          <p class="text-sm mb-5" style="color:#374151;line-height:1.8">
+            저희는 <b>이커머스 전문 개발팀</b>으로, CAFE24/Shopify 기반 쇼핑몰을 독립몰로 전환하는 프로젝트를 다수 수행해왔습니다.
+            최근 <b>Dr.**** C 화장품 브랜드몰</b>의 CAFE24 이관을 성공적으로 완료한 경험이 있어, 이관 과정에서 발생할 수 있는 리스크를 잘 알고 있습니다.
+          </p>
+          <div class="grid grid-cols-3 gap-3 mb-5">
+            <div class="rounded-xl p-4 text-center" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-2xl font-black" style="color:var(--c600)">700만</div>
+              <div class="text-xs mt-1" style="color:#6b7280">가입자 규모 경험</div>
+            </div>
+            <div class="rounded-xl p-4 text-center" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-2xl font-black" style="color:var(--c600)">530억</div>
+              <div class="text-xs mt-1" style="color:#6b7280">GMV 처리 경험</div>
+            </div>
+            <div class="rounded-xl p-4 text-center" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-2xl font-black" style="color:var(--c600)">15년+</div>
+              <div class="text-xs mt-1" style="color:#6b7280">커머스 경력 (리드)</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm mb-3" style="color:var(--c800)">전담 팀 구성 (6명)</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 rounded-lg p-3" style="background:#fff;border:1px solid var(--c200);">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black shrink-0" style="background:var(--c400);color:var(--c950)">J</div>
+              <div><div class="text-sm font-bold" style="color:var(--c800)">Jamie (양승현)</div><div class="text-xs" style="color:#6b7280">프로젝트 리드 · 고려대 · 풀스택</div></div>
+            </div>
+            <div class="flex items-center gap-3 rounded-lg p-3" style="background:#fff;border:1px solid var(--c200);">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black shrink-0" style="background:var(--c400);color:var(--c950)">T</div>
+              <div><div class="text-sm font-bold" style="color:var(--c800)">Tom</div><div class="text-xs" style="color:#6b7280">커머스 아키텍트 · KAIST · <b>前 쿠팡 EM</b></div></div>
+            </div>
+            <div class="flex items-center gap-3 rounded-lg p-3" style="background:#fff;border:1px solid var(--c200);">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black shrink-0" style="background:var(--c400);color:var(--c950)">+4</div>
+              <div><div class="text-sm font-bold" style="color:var(--c800)">Joon · Sera · Daniel · Grace</div><div class="text-xs" style="color:#6b7280">데이터(KAIST) · UI/UX · 백엔드(결제) · PM/QA</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: CAFE24 Explained (for non-developers) -->
+<div class="slide" id="s3">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col justify-center flex-1 px-14 pb-8 pt-10">
+      <div class="section-pill mb-6" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">CAFE24 OVERVIEW</div>
+      <h2 class="font-black text-white mb-6" style="font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.15;">
+        <span class="heading-line">CAFE24에서 독립몰로, 왜?</span>
+      </h2>
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Left: Current (CAFE24) -->
+        <div>
+          <div class="text-sm font-bold mb-3" style="color:rgba(255,255,255,.5)">현재: CAFE24 호스팅</div>
+          <div class="rounded-2xl p-5 mb-3" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);">
+            <p class="text-sm mb-3" style="color:rgba(255,255,255,.8);line-height:1.7">
+              CAFE24는 <b>임대 아파트</b>와 같습니다.<br>
+              입주(가입)하면 바로 쇼핑몰을 운영할 수 있지만,<br>
+              벽을 허물거나 구조를 바꿀 수는 없습니다.
+            </p>
+            <div class="space-y-2">
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.65)">
+                <span style="color:#f87171">&#10007;</span> 도매 전용 기능(승인제, 등급별 가격) 구현 한계
+              </div>
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.65)">
+                <span style="color:#f87171">&#10007;</span> 사업자 A/B를 완전히 분리할 수 없음
+              </div>
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.65)">
+                <span style="color:#f87171">&#10007;</span> 데이터(회원/주문)를 직접 소유하지 못함
+              </div>
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.65)">
+                <span style="color:#f87171">&#10007;</span> 디자인/기능 커스터마이징에 한계
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Future (독립몰) -->
+        <div>
+          <div class="text-sm font-bold mb-3" style="color:var(--c400)">전환 후: 독립몰 (자가 소유)</div>
+          <div class="rounded-2xl p-5 mb-3" style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);">
+            <p class="text-sm mb-3" style="color:rgba(255,255,255,.8);line-height:1.7">
+              독립몰은 <b>내 건물</b>을 짓는 것입니다.<br>
+              원하는 구조로 자유롭게 설계하고,<br>
+              모든 데이터를 직접 소유합니다.
+            </p>
+            <div class="space-y-2">
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.75)">
+                <span style="color:#4ade80">&#10003;</span> B2B 승인제, 등급별 가격, 세금계산서 자동발행
+              </div>
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.75)">
+                <span style="color:#4ade80">&#10003;</span> 펠릭스/소독차 완전 분리 (별도 DB, 별도 관리자)
+              </div>
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.75)">
+                <span style="color:#4ade80">&#10003;</span> 회원/주문/매출 데이터 100% 소유
+              </div>
+              <div class="flex items-start gap-3 text-sm" style="color:rgba(255,255,255,.75)">
+                <span style="color:#4ade80">&#10003;</span> 원하는 기능 무제한 추가 가능
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-xl p-4 mt-2" style="background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.3);">
+        <p class="text-sm text-center" style="color:rgba(255,255,255,.8)">
+          이관 과정에서 기존 <b style="color:#5eead4">회원 정보, 상품, 주문 내역, 리뷰</b>는 모두 새 시스템으로 안전하게 옮겨집니다. 고객은 변화를 거의 느끼지 못합니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Migration Risks (non-technical) -->
+<div class="slide" id="s4">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex items-center px-14 pt-10 pb-0 shrink-0">
+      <div class="section-pill" style="background:rgba(245,158,11,.15);color:#b45309;border:1px solid rgba(245,158,11,.3)">MIGRATION RISKS</div>
+    </div>
+    <div class="flex flex-col justify-center flex-1 px-14 pb-8">
+      <h2 class="font-black mb-2" style="font-size:clamp(1.6rem,3vw,2.4rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">이관 시 저희가 챙겨드릴 부분</span>
+      </h2>
+      <p class="text-sm mb-5" style="color:#6b7280">CAFE24에서 독립몰로 전환할 때 발생할 수 있는 이슈를 미리 파악하고, 안전하게 처리합니다.</p>
+      <div class="grid grid-cols-2 gap-5">
+        <div class="rounded-xl p-5" style="background:#fff;border:1.5px solid var(--c200);">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">📦</span>
+            <h3 class="font-bold text-sm" style="color:var(--c800)">데이터 이관</h3>
+          </div>
+          <ul class="text-sm space-y-2" style="color:#374151;line-height:1.6">
+            <li>회원/상품/주문/리뷰 데이터를 CAFE24에서 추출하여 새 시스템으로 옮깁니다</li>
+            <li>기존 비밀번호는 보안상 가져올 수 없어 <b style="color:var(--c600)">임시 비밀번호를 발급</b>하고, 최초 로그인 시 변경을 안내합니다</li>
+            <li>임시 PW를 <b>알림톡/SMS</b>로 발송하여 즉시 로그인 가능하게 처리합니다</li>
+          </ul>
+        </div>
+        <div class="rounded-xl p-5" style="background:#fff;border:1.5px solid var(--c200);">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🖼️</span>
+            <h3 class="font-bold text-sm" style="color:var(--c800)">상품 이미지</h3>
+          </div>
+          <ul class="text-sm space-y-2" style="color:#374151;line-height:1.6">
+            <li>현재 상품 이미지는 CAFE24 서버에 저장되어 있습니다</li>
+            <li><b style="color:#ef4444">CAFE24 해지 시 이미지가 사라지므로</b> 해지 전에 전체 이미지를 안전하게 백업합니다</li>
+            <li>새 서버로 이미지를 옮기고, 모든 링크를 자동 교체합니다</li>
+          </ul>
+        </div>
+        <div class="rounded-xl p-5" style="background:#fff;border:1.5px solid var(--c200);">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">💳</span>
+            <h3 class="font-bold text-sm" style="color:var(--c800)">결제(PG) 계약</h3>
+          </div>
+          <ul class="text-sm space-y-2" style="color:#374151;line-height:1.6">
+            <li>CAFE24를 통해 결제를 사용 중이라면, 독립몰용으로 <b>새 결제 계약</b>이 필요합니다</li>
+            <li>심사에 <b style="color:#f59e0b">5~15 영업일</b>이 걸리므로 계약 즉시 접수하여 일정을 맞춥니다</li>
+            <li>이미 직접 계약이 있다면 그대로 사용 가능합니다</li>
+          </ul>
+        </div>
+        <div class="rounded-xl p-5" style="background:#fff;border:1.5px solid var(--c200);">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🌐</span>
+            <h3 class="font-bold text-sm" style="color:var(--c800)">도메인 전환</h3>
+          </div>
+          <ul class="text-sm space-y-2" style="color:#374151;line-height:1.6">
+            <li>기존 도메인(felixliquids.com 등)을 새 서버로 연결합니다</li>
+            <li>도메인에 연결된 <b>이메일이 끊기지 않도록</b> 사전 조치합니다</li>
+            <li>전환 중에도 <b style="color:#22c55e">CAFE24를 병행 운영</b>하여 안전하게 이관합니다</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: How We Work -->
+<div class="slide" id="s3">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col justify-center flex-1 px-14 pb-8 pt-10">
+      <div class="section-pill mb-6" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">HOW WE WORK</div>
+      <h2 class="font-black text-white mb-8" style="font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.15;">
+        <span class="heading-line">이렇게 진행합니다</span>
+      </h2>
+      <div class="grid grid-cols-4 gap-4">
+        <div class="rounded-2xl p-5 text-center" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);">
+          <div class="text-3xl mb-3">1</div>
+          <h3 class="font-bold text-sm text-white mb-2">기획 & 설계</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6)">DB 스키마 설계<br>와이어프레임<br>디자인 시안<br>이관 매핑 테이블</p>
+          <div class="mt-3 text-xs font-bold" style="color:var(--c400)">1주차</div>
+        </div>
+        <div class="rounded-2xl p-5 text-center" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);">
+          <div class="text-3xl mb-3">2</div>
+          <h3 class="font-bold text-sm text-white mb-2">개발</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6)">프론트엔드 퍼블리싱<br>백엔드 API<br>결제/배송 연동<br>관리자 페이지</p>
+          <div class="mt-3 text-xs font-bold" style="color:var(--c400)">2~3주차</div>
+        </div>
+        <div class="rounded-2xl p-5 text-center" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);">
+          <div class="text-3xl mb-3">3</div>
+          <h3 class="font-bold text-sm text-white mb-2">이관 & QA</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6)">CAFE24 데이터 이관<br>통합 테스트<br>보안 점검<br>클라이언트 검수</p>
+          <div class="mt-3 text-xs font-bold" style="color:var(--c400)">3~4주차</div>
+        </div>
+        <div class="rounded-2xl p-5 text-center" style="background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);">
+          <div class="text-3xl mb-3">4</div>
+          <h3 class="font-bold text-sm text-white mb-2">오픈 & 안정화</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,.6)">DNS 전환<br>모니터링<br>CAFE24 병행 운영<br>하자보수 시작</p>
+          <div class="mt-3 text-xs font-bold" style="color:var(--c400)">4주차</div>
+        </div>
+      </div>
+      <div class="mt-6 rounded-xl p-4" style="background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.3);">
+        <p class="text-sm text-center" style="color:rgba(255,255,255,.8)">매주 금요일 <b style="color:#5eead4">진행 보고</b> + 실시간 <b style="color:#5eead4">슬랙/카카오톡 커뮤니케이션</b> + 개발 완료 후 <b style="color:#5eead4">6개월 무상 하자보수</b></p>
+      </div>
+      <!-- Architecture Strategy -->
+      <div class="mt-4 rounded-xl p-5" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);">
+        <h3 class="text-sm font-bold text-white mb-3">시스템 구조 — 3개 독립 프로젝트 + DB 사업자 기준 분리</h3>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="rounded-lg p-3 text-center" style="background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);">
+            <div class="text-xs font-bold" style="color:var(--c400)">프로젝트 1</div>
+            <div class="text-sm font-bold text-white mt-1">펠릭스 도매몰</div>
+            <div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">Next.js + Nest.js</div>
+            <div class="mt-2 text-xs font-bold rounded px-2 py-1" style="background:rgba(96,165,250,.2);color:var(--c300)">DB A (사업자 A)</div>
+          </div>
+          <div class="rounded-lg p-3 text-center" style="background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);">
+            <div class="text-xs font-bold" style="color:var(--c400)">프로젝트 2</div>
+            <div class="text-sm font-bold text-white mt-1">펠릭스 소매몰</div>
+            <div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">Next.js + Nest.js</div>
+            <div class="mt-2 text-xs font-bold rounded px-2 py-1" style="background:rgba(96,165,250,.2);color:var(--c300)">DB A (같은 DB)</div>
+          </div>
+          <div class="rounded-lg p-3 text-center" style="background:rgba(20,184,166,.12);border:1px solid rgba(20,184,166,.3);">
+            <div class="text-xs font-bold" style="color:#5eead4">프로젝트 3</div>
+            <div class="text-sm font-bold text-white mt-1">소독차 소매몰</div>
+            <div class="text-xs mt-1" style="color:rgba(255,255,255,.5)">Next.js + Nest.js</div>
+            <div class="mt-2 text-xs font-bold rounded px-2 py-1" style="background:rgba(20,184,166,.15);color:#5eead4">DB B (완전 분리)</div>
+          </div>
+        </div>
+        <p class="text-xs mt-3 text-center" style="color:rgba(255,255,255,.5)">도매/소매는 같은 DB로 재고 공유 가능 · 소독차는 코드/DB/서버 모두 독립 → 브랜드 연관성 완전 차단</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Easy Wins -->
+<div class="slide" id="s4">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex items-center px-14 pt-10 pb-0 shrink-0">
+      <div class="section-pill" style="background:rgba(20,184,166,.15);color:#0d9488;border:1px solid rgba(20,184,166,.3)">READY TO GO</div>
+    </div>
+    <div class="flex flex-col justify-center flex-1 px-14 pb-8">
+      <h2 class="font-black mb-2" style="font-size:clamp(1.6rem,3vw,2.4rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">저희가 바로 해결해드릴 수 있는 영역</span>
+      </h2>
+      <p class="text-sm mb-5" style="color:#6b7280">아래 항목들은 저희 팀의 기존 경험과 기술 스택으로 즉시 착수 가능합니다.</p>
+      <!-- Demo Banner -->
+      <div class="rounded-2xl p-5 mb-5 flex items-center gap-5" style="background:linear-gradient(135deg,var(--c800),var(--c900));border:2px solid var(--c400);box-shadow:0 4px 24px rgba(96,165,250,0.15);">
+        <div class="shrink-0 text-center">
+          <div class="text-4xl font-black" style="color:var(--c400)">2h</div>
+          <div class="text-xs font-bold mt-1" style="color:var(--c300)">소요 시간</div>
+        </div>
+        <div class="h-12" style="width:1px;background:rgba(255,255,255,.15)"></div>
+        <div>
+          <h3 class="font-bold text-base mb-1" style="color:#fff">felixlab.co.kr UI 클로닝 — 이미 완료</h3>
+          <p class="text-sm" style="color:var(--c300)">현재 운영 중인 펠릭스 소매몰의 UI를 <b style="color:var(--c400)">2시간 만에 Next.js로 클로닝</b> 완료했습니다. 실제 동작하는 데모를 확인하실 수 있습니다.</p>
+          <div class="mt-2"><span class="rounded-full px-4 py-1 text-xs font-bold" style="background:var(--c400);color:var(--c950)">felixlab-demo.vercel.app</span></div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-xl p-5 flex items-start gap-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="text-2xl shrink-0" style="color:#22c55e">&#10003;</div>
+          <div>
+            <h3 class="font-bold text-sm mb-1" style="color:var(--c800)">3개 사이트 프론트엔드 구축</h3>
+            <p class="text-sm" style="color:#374151">Next.js + Tailwind 기반 반응형 쇼핑몰 UI. 데모에서 보시듯 빠른 속도로 구현 가능합니다.</p>
+          </div>
+        </div>
+        <div class="rounded-xl p-5 flex items-start gap-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="text-2xl shrink-0" style="color:#22c55e">&#10003;</div>
+          <div>
+            <h3 class="font-bold text-sm mb-1" style="color:var(--c800)">관리자 대시보드 (2벌)</h3>
+            <p class="text-sm" style="color:#374151">매출 차트, 주문/회원/상품 관리, 엑셀 다운로드. 사업자별 완전 분리된 관리 환경을 제공합니다.</p>
+          </div>
+        </div>
+        <div class="rounded-xl p-5 flex items-start gap-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="text-2xl shrink-0" style="color:#22c55e">&#10003;</div>
+          <div>
+            <h3 class="font-bold text-sm mb-1" style="color:var(--c800)">PG 결제 연동</h3>
+            <p class="text-sm" style="color:#374151">토스페이먼츠/KCP 연동 경험 다수. 카드/간편결제/무통장입금/가상계좌 모두 지원 가능합니다.</p>
+          </div>
+        </div>
+        <div class="rounded-xl p-5 flex items-start gap-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="text-2xl shrink-0" style="color:#22c55e">&#10003;</div>
+          <div>
+            <h3 class="font-bold text-sm mb-1" style="color:var(--c800)">CAFE24 데이터 이관 (API 전체 지원)</h3>
+            <p class="text-sm" style="color:#374151">CAFE24 Admin API로 회원, 상품, 주문, 리뷰, 적립금, 쿠폰, 카테고리, 게시판을 자동 추출합니다. 상품 1,000개 기준 <b>약 30분</b>이면 완료됩니다.</p>
+          </div>
+        </div>
+        <div class="rounded-xl p-5 flex items-start gap-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="text-2xl shrink-0" style="color:#22c55e">&#10003;</div>
+          <div>
+            <h3 class="font-bold text-sm mb-1" style="color:var(--c800)">B2B 승인제 회원가입</h3>
+            <p class="text-sm" style="color:#374151">사업자등록증 업로드 + 관리자 승인 워크플로우. 미승인 회원 가격 비노출 로직을 구현합니다.</p>
+          </div>
+        </div>
+        <div class="rounded-xl p-5 flex items-start gap-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="text-2xl shrink-0" style="color:#22c55e">&#10003;</div>
+          <div>
+            <h3 class="font-bold text-sm mb-1" style="color:var(--c800)">배송 추적 & 알림</h3>
+            <p class="text-sm" style="color:#374151">택배사 API 연동, 송장 대량 업로드, 카카오 알림톡/SMS 자동 발송까지 일괄 구현합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: Transition to Questions -->
+<div class="slide" id="s5">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col items-center justify-center flex-1 text-center px-12">
+      <div class="text-5xl mb-6">🤝</div>
+      <h2 class="font-black text-white mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem);line-height:1.15;">
+        원활한 진행을 위해<br>몇 가지 확인이 필요합니다
+      </h2>
+      <p class="text-sm mb-8" style="color:var(--c300);max-width:600px;line-height:1.7">
+        프로젝트를 <b>정확한 방향</b>으로, <b>빠르게</b> 시작하기 위해<br>
+        현재 운영 현황과 몇 가지 의사결정 사항을 여쭤보겠습니다.<br>
+        대부분은 간단한 확인이며, 일부 항목은 함께 논의가 필요합니다.
+      </p>
+      <div class="grid grid-cols-3 gap-6" style="max-width:700px;">
+        <div class="text-center">
+          <div class="text-3xl font-black mb-1" style="color:#22c55e">6개</div>
+          <div class="text-sm" style="color:rgba(255,255,255,.6)">간단 확인<br><span class="text-xs">(현황 파악)</span></div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-black mb-1" style="color:var(--c400)">3개</div>
+          <div class="text-sm" style="color:rgba(255,255,255,.6)">함께 결정<br><span class="text-xs">(인프라/방향성)</span></div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-black mb-1" style="color:#fbbf24">1개</div>
+          <div class="text-sm" style="color:rgba(255,255,255,.6)">자료 전달<br><span class="text-xs">(계정/문서)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Meeting Objectives -->
+<div class="slide" id="s2">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex items-center px-14 pt-10 pb-0 shrink-0">
+      <div class="section-pill" style="background:var(--c100);color:var(--c800);border:1px solid var(--c200)">MEETING OVERVIEW</div>
+    </div>
+    <div class="flex flex-col justify-center flex-1 px-14 pb-8">
+      <h2 class="font-black mb-6" style="font-size:clamp(1.6rem,3vw,2.4rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">미팅 목표 및 아젠다</span>
+      </h2>
+      <div class="grid grid-cols-2 gap-5">
+        <div class="rounded-2xl p-5" style="background:#fff;border:1.5px solid var(--c200);box-shadow:0 4px 24px rgba(30,58,95,0.06);">
+          <div class="text-2xl mb-2">🎯</div>
+          <h3 class="font-bold text-sm mb-2" style="color:var(--c800)">미팅 목적</h3>
+          <ul class="text-xs space-y-1.5" style="color:#374151">
+            <li>• 프로젝트 착수를 위한 <b>필수 정보</b> 확인</li>
+            <li>• <b>의사결정 포인트 34개</b> 중 최우선 항목 합의</li>
+            <li>• 클라이언트 <b>전달 자료 44건</b> 수령 일정 확정</li>
+            <li>• 30일 일정의 <b>병목 리스크</b> 사전 제거</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-5" style="background:#fff;border:1.5px solid var(--c200);box-shadow:0 4px 24px rgba(30,58,95,0.06);">
+          <div class="text-2xl mb-2">⏱️</div>
+          <h3 class="font-bold text-sm mb-2" style="color:var(--c800)">미팅 아젠다 (60~90분)</h3>
+          <ul class="text-xs space-y-1.5" style="color:#374151">
+            <li>1. 현황 파악 — CAFE24 계정/데이터 접근 <span style="color:#6b7280">(10분)</span></li>
+            <li>2. 핵심 결정 — PG/세금계산서/인프라 <span style="color:#6b7280">(20분)</span></li>
+            <li>3. 비즈니스 로직 — B2B 도매/SKU/재고 <span style="color:#6b7280">(20분)</span></li>
+            <li>4. 운영 준비 — 도메인/택배/알림톡 <span style="color:#6b7280">(15분)</span></li>
+            <li>5. 디자인 방향 — 브랜드/에셋 <span style="color:#6b7280">(10분)</span></li>
+            <li>6. 자료 전달 일정 합의 <span style="color:#6b7280">(5분)</span></li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-5 col-span-2" style="background:var(--c800);border:1.5px solid var(--c700);">
+          <h3 class="font-bold text-sm mb-3 text-white">⚠️ 미팅에서 반드시 확정해야 할 TOP 5</h3>
+          <div class="grid grid-cols-5 gap-3">
+            <div class="text-center">
+              <div class="text-lg mb-1">💳</div>
+              <div class="text-xs font-bold text-white">PG 계약 상태</div>
+              <div class="text-xs mt-1" style="color:var(--c300)">CAFE24 종속 여부</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg mb-1">🏭</div>
+              <div class="text-xs font-bold text-white">B2B 결제 방식</div>
+              <div class="text-xs mt-1" style="color:var(--c300)">외상거래 유무</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg mb-1">☁️</div>
+              <div class="text-xs font-bold text-white">인프라 선택</div>
+              <div class="text-xs mt-1" style="color:var(--c300)">AWS vs Vercel</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg mb-1">📦</div>
+              <div class="text-xs font-bold text-white">재고 관리</div>
+              <div class="text-xs mt-1" style="color:var(--c300)">통합 vs 분리</div>
+            </div>
+            <div class="text-center">
+              <div class="text-lg mb-1">🧾</div>
+              <div class="text-xs font-bold text-white">세금계산서 API</div>
+              <div class="text-xs mt-1" style="color:var(--c300)">홈택스 vs 바로빌</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: CAFE24 Data Access -->
+<div class="slide" id="s3">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">1 / 10</div>
+        <span class="badge badge-critical">CRITICAL</span>
+      </div>
+      <h2 class="font-black text-white mb-6" style="font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;">
+        <span class="heading-line">CAFE24 데이터/계정 접근</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-xs font-bold mb-3" style="color:var(--c300)">핵심 질문</h3>
+            <div class="q-card">
+              <div class="text-xs font-bold text-white mb-1">Q1. CAFE24 관리자 계정 및 앱 승인</div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">3개 몰 관리자 계정 로그인 정보를 공유 가능한지? API 연동을 위한 앱 설치(OAuth) 승인을 해주실 수 있는지?</p>
+            </div>
+            <div class="q-card">
+              <div class="text-xs font-bold text-white mb-1">Q2. 이관 데이터 범위</div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">회원/상품/주문/리뷰 외 추가 이관 대상은? (적립금, 쿠폰, 문의, 게시판 등)</p>
+            </div>
+            <div class="q-card">
+              <div class="text-xs font-bold text-white mb-1">Q3. CAFE24 해지 시점</div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">독립몰 오픈 후 CAFE24 병행 운영 기간? 즉시 해지 vs 2주 유지?</p>
+            </div>
+            <div class="q-card">
+              <div class="text-xs font-bold text-white mb-1">Q4. 이미지 원본 보유 여부</div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">CAFE24 CDN(ecimg.cafe24img.com) 외에 고해상도 원본 별도 보관 중인지?</p>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold mb-3" style="color:var(--teal)">전달받을 자료</h3>
+            <div class="flex flex-wrap gap-1 mb-4">
+              <span class="doc-tag">CAFE24 관리자 로그인 정보 x3</span>
+              <span class="doc-tag">앱 설치(OAuth) 승인</span>
+              <span class="doc-tag">회원 목록 Excel</span>
+              <span class="doc-tag">상품 목록 Excel x3</span>
+              <span class="doc-tag">주문 데이터 샘플</span>
+              <span class="doc-tag">현재 요금제 정보</span>
+              <span class="doc-tag">유료 앱 목록</span>
+            </div>
+            <h3 class="text-xs font-bold mb-3" style="color:#f87171">미확인 시 리스크</h3>
+            <div class="rounded-lg p-3 risk-critical mb-2">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>앱 설치 승인 미진행</b> 시 API 데이터 추출이 불가하여 수동 Excel Export로 전환, 이관 일정 1~2주 추가</p>
+            </div>
+            <div class="rounded-lg p-3 risk-critical">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>CAFE24 해지 시 이미지 CDN 즉시 차단</b> — 이관 완료 전 해지하면 상품 이미지 전체 소실</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Domain/DNS -->
+<div class="slide" id="s4">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:var(--c100);color:var(--c800);border:1px solid var(--c200)">2 / 10</div>
+        <span class="badge badge-critical">CRITICAL</span>
+      </div>
+      <h2 class="font-black mb-6" style="font-size:clamp(1.5rem,3vw,2.2rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">도메인 및 DNS 이전</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-xs font-bold mb-3" style="color:var(--c600)">핵심 질문</h3>
+            <div class="rounded-xl p-4 mb-3" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-xs font-bold mb-1" style="color:var(--c800)">Q1. 도메인 등록 기관</div>
+              <p class="text-xs" style="color:#374151">3개 도메인 각각 어디서 등록? CAFE24 vs 가비아 vs 기타. .com과 .co.kr은 이전 절차가 다름</p>
+            </div>
+            <div class="rounded-xl p-4 mb-3" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-xs font-bold mb-1" style="color:var(--c800)">Q2. 이메일 서비스 (MX 레코드)</div>
+              <p class="text-xs" style="color:#374151">admin@felixlab.co.kr 등 도메인 이메일 사용 중인지? DNS 변경 시 <b style="color:#ef4444">이메일 수신 즉시 중단 위험</b></p>
+            </div>
+            <div class="rounded-xl p-4 mb-3" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-xs font-bold mb-1" style="color:var(--c800)">Q3. 서브도메인 현황</div>
+              <p class="text-xs" style="color:#374151">m. (모바일), admin. 등 서브도메인 사용 여부? CAFE24는 m. 자동 생성 — 누락 시 모바일 트래픽 404</p>
+            </div>
+            <div class="rounded-xl p-4 mb-3" style="background:#fff;border:1.5px solid var(--c200);">
+              <div class="text-xs font-bold mb-1" style="color:var(--c800)">Q4. 외부 채널 URL</div>
+              <p class="text-xs" style="color:#374151">네이버 쇼핑/다나와 등에 등록된 상품 URL이 있는지? 301 리다이렉트 매핑 필요</p>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold mb-3" style="color:var(--teal)">전달받을 자료</h3>
+            <div class="flex flex-wrap gap-1 mb-4">
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">도메인 등록기관 로그인 정보</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">DNS 레코드 전체 목록</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">SSL 인증서 현황</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">도메인 만료일 정보</span>
+            </div>
+            <h3 class="text-xs font-bold mb-3" style="color:#ef4444">미확인 시 리스크</h3>
+            <div class="rounded-xl p-3 mb-2" style="background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.2);">
+              <p class="text-xs" style="color:#374151"><b style="color:#ef4444">치명적:</b> DNS 네임서버 변경 시 MX 레코드 초기화 → B2B 거래처와의 이메일 수신 즉시 중단</p>
+            </div>
+            <div class="rounded-xl p-3 mb-2" style="background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.2);">
+              <p class="text-xs" style="color:#374151"><b style="color:#ef4444">치명적:</b> CAFE24에서 도메인을 구매한 경우, 이전 시 LOCK 해제 + Auth Code 발급이 필요하며 수일 소요 — 사전 확인 필수</p>
+            </div>
+            <div class="rounded-xl p-3" style="background:rgba(245,158,11,.08);border:1.5px solid rgba(245,158,11,.2);">
+              <p class="text-xs" style="color:#374151"><b style="color:#f59e0b">주의:</b> DNS 전파 시간 최대 48시간 — 현재 30일 일정에 DNS 작업이 미포함 상태</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: PG Payment -->
+<div class="slide" id="s5">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">3 / 10</div>
+        <span class="badge badge-critical">CRITICAL</span>
+      </div>
+      <h2 class="font-black text-white mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;">
+        <span class="heading-line">PG 결제 연동</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-critical">P0</span><span class="text-xs font-bold text-white">기존 PG 계약 성격</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">CAFE24 전용 계약(종속) vs PG사 직접 계약? 종속이면 신규 PG 심사 필수 (5~15 영업일)</p>
+            </div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-critical">P0</span><span class="text-xs font-bold text-white">사업자별 PG 분리</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">사업자 A/B 각각 PG MID 분리 필요. 통신판매업 신고증 2부 보유 여부?</p>
+            </div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-critical">P0</span><span class="text-xs font-bold text-white">B2B 도매몰 결제 방식</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">무통장만? 카드 병행? <b>후불/외상 결제?</b> 후불이면 아키텍처가 근본적으로 변경됨</p>
+            </div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-high">P1</span><span class="text-xs font-bold text-white">간편결제 범위</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">카카오페이/네이버페이/토스페이 — PG창 내 지원 vs 별도 직접 연동? 네이버페이 주문형 사용 여부?</p>
+            </div>
+          </div>
+          <div>
+            <div class="flex flex-wrap gap-1 mb-3">
+              <span class="doc-tag">PG 계약서/MID 정보</span>
+              <span class="doc-tag">사업자등록증 x2</span>
+              <span class="doc-tag">통신판매업 신고증 x2</span>
+              <span class="doc-tag">CAFE24 결제 설정 캡처</span>
+              <span class="doc-tag">결제수단별 거래 비중</span>
+            </div>
+            <div class="rounded-lg p-3 risk-critical mb-2">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>PG 심사 5~15 영업일</b> — 30일 일정의 최대 병목. 미팅 직후 심사 접수 필요</p>
+            </div>
+            <div class="rounded-lg p-3 risk-critical mb-2">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>전자담배(액상) 업종</b> — PG 심사에서 추가 서류 요구 또는 거부 가능성. 대비 PG 필요</p>
+            </div>
+            <div class="rounded-lg p-3 risk-high mb-2">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>에스크로/구매안전서비스</b> — 전자상거래법상 의무. CAFE24 자동 적용이었다면 독립몰에서 별도 가입 필요</p>
+            </div>
+            <div class="rounded-lg p-3 risk-high">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>후불 결제 존재 시</b> — 여신/미수금 관리 모듈 필요 → 30일+1,500만원 예산으로 수용 불가. 별도 Phase 분리</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Tax Invoice -->
+<div class="slide" id="s6">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:var(--c100);color:var(--c800);border:1px solid var(--c200)">4 / 10</div>
+        <span class="badge badge-critical">CRITICAL</span>
+      </div>
+      <h2 class="font-black mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">세금계산서 / 현금영수증</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-3 gap-4">
+          <div class="rounded-xl p-4" style="background:#fff;border:1.5px solid var(--c200);">
+            <div class="text-xl mb-2">🧾</div>
+            <h3 class="font-bold text-xs mb-2" style="color:var(--c800)">발행 방식 확정</h3>
+            <ul class="text-xs space-y-1" style="color:#374151">
+              <li>• 현재 발행 방식? (수동/CAFE24앱/세무사)</li>
+              <li>• <b>홈택스 API vs 바로빌/팝빌</b> 중 택 1</li>
+              <li>• 인증서(공동인증서) 보유 여부</li>
+              <li>• 월평균 발행 건수 (비용 산정)</li>
+            </ul>
+          </div>
+          <div class="rounded-xl p-4" style="background:#fff;border:1.5px solid var(--c200);">
+            <div class="text-xl mb-2">⏰</div>
+            <h3 class="font-bold text-xs mb-2" style="color:var(--c800)">발행 시점 합의</h3>
+            <ul class="text-xs space-y-1" style="color:#374151">
+              <li>• 주문 완료 시? 출하 시? 입금 확인 시?</li>
+              <li>• <b>B2B 도매는 외상/월말 정산</b> 관행</li>
+              <li>• 합산 발행 vs 건건이 발행</li>
+              <li>• 수정세금계산서(반품/취소) 범위</li>
+            </ul>
+          </div>
+          <div class="rounded-xl p-4" style="background:#fff;border:1.5px solid var(--c200);">
+            <div class="text-xl mb-2">📋</div>
+            <h3 class="font-bold text-xs mb-2" style="color:var(--c800)">전달 자료</h3>
+            <div class="flex flex-wrap gap-1">
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">사업자등록증 x2</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">인증서 현황</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">월 발행 건수</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">거래처 목록</span>
+              <span class="doc-tag" style="background:rgba(30,58,95,.1);color:var(--c800);border-color:var(--c200)">세무대리인 연락처</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 rounded-xl p-4" style="background:var(--c800);">
+          <h3 class="font-bold text-xs mb-2 text-white">⚠️ 핵심 리스크</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <p class="text-xs" style="color:var(--c300)"><b style="color:#f87171">Vercel 인프라와 충돌:</b> 홈택스 API는 인증서 파일을 서버에 탑재해야 하나, Vercel(서버리스)에서는 불가 → 중개 서비스(바로빌) 강제</p>
+            <p class="text-xs" style="color:var(--c300)"><b style="color:#f87171">사업자 라우팅 오류:</b> 사업자 A/B 세금계산서 교차 발행 시 세무 문제 발생 → 사이트별 사업자 매핑 로직 필수</p>
+          </div>
+        </div>
+        <!-- Infrastructure Comparison Table -->
+        <div class="mt-4 rounded-xl overflow-hidden" style="border:1.5px solid var(--c200);">
+          <div class="px-4 py-2" style="background:var(--c800);">
+            <h3 class="text-xs font-bold text-white">인프라 선택에 따라 세금계산서 API가 달라집니다</h3>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:var(--c100);">
+                <th style="padding:8px 12px;text-align:left;color:var(--c800);width:25%">항목</th>
+                <th style="padding:8px 12px;text-align:center;color:var(--c800);width:37.5%">AWS (EC2+RDS+S3)</th>
+                <th style="padding:8px 12px;text-align:center;color:var(--c800);width:37.5%">Vercel + Supabase</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--c200);"><td style="padding:7px 12px;color:var(--dark);font-weight:600">월 비용</td><td style="padding:7px 12px;color:#374151;text-align:center">10~30만원+ (종량)</td><td style="padding:7px 12px;color:#374151;text-align:center">3~8만원 (고정)</td></tr>
+              <tr style="border-bottom:1px solid var(--c200);background:var(--c50);"><td style="padding:7px 12px;color:var(--dark);font-weight:600">서버 관리</td><td style="padding:7px 12px;color:#374151;text-align:center">직접 해야 함</td><td style="padding:7px 12px;color:#374151;text-align:center">자동 (관리형)</td></tr>
+              <tr style="border-bottom:1px solid var(--c200);"><td style="padding:7px 12px;color:var(--dark);font-weight:600">홈택스 직접 연동</td><td style="padding:7px 12px;text-align:center"><b style="color:#22c55e">가능</b> (인증서 탑재)</td><td style="padding:7px 12px;text-align:center"><b style="color:#ef4444">불가</b> (바로빌 경유)</td></tr>
+              <tr style="border-bottom:1px solid var(--c200);background:var(--c50);"><td style="padding:7px 12px;color:var(--dark);font-weight:600">배포</td><td style="padding:7px 12px;color:#374151;text-align:center">CI/CD 직접 구축</td><td style="padding:7px 12px;color:#374151;text-align:center">git push만 하면 자동</td></tr>
+              <tr style="border-bottom:1px solid var(--c200);"><td style="padding:7px 12px;color:var(--dark);font-weight:600">스케일링</td><td style="padding:7px 12px;color:#374151;text-align:center">Auto Scaling 설정 필요</td><td style="padding:7px 12px;color:#374151;text-align:center">자동</td></tr>
+              <tr style="border-bottom:1px solid var(--c200);background:var(--c50);"><td style="padding:7px 12px;color:var(--dark);font-weight:600">클라이언트 자체 운영</td><td style="padding:7px 12px;color:#374151;text-align:center">어려움</td><td style="padding:7px 12px;color:#374151;text-align:center">비교적 쉬움</td></tr>
+              <tr><td style="padding:7px 12px;color:var(--dark);font-weight:600">자유도</td><td style="padding:7px 12px;color:#374151;text-align:center">최상</td><td style="padding:7px 12px;color:#374151;text-align:center">약간 제약</td></tr>
+            </tbody>
+          </table>
+          <div class="px-4 py-3" style="background:var(--c800);">
+            <p class="text-xs text-center" style="color:var(--c300)">
+              <b style="color:#fbbf24">미팅 확인:</b> "이관 후 내부에 IT 인력이 있으신가요?" → <b style="color:#4ade80">없으면 Vercel 권장</b> (관리 부담 최소) / <b style="color:var(--c400)">있으면 AWS 가능</b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: B2B Wholesale -->
+<div class="slide" id="s7">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">5 / 10</div>
+        <span class="badge badge-critical">CRITICAL</span>
+      </div>
+      <h2 class="font-black text-white mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;">
+        <span class="heading-line">B2B 도매 체계</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-critical">P0</span><span class="text-xs font-bold text-white">외상거래/후불결제 여부</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">결제 아키텍처 전체를 좌우. "예"면 미수금 관리, Credit Limit 등 별도 모듈 필요 → 30일 일정 초과</p>
+            </div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-critical">P0</span><span class="text-xs font-bold text-white">등급별 가격 구조</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">단일 할인율 vs 상품별 개별 가격 매핑? 개발 공수 5배 차이. DB 스키마에 직접 영향</p>
+            </div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-high">P1</span><span class="text-xs font-bold text-white">승인 프로세스 상세</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">사업자등록증 외 추가 서류? 국세청 진위확인 API 연동? 승인 알림 채널?</p>
+            </div>
+            <div class="q-card">
+              <div class="flex items-center gap-2 mb-1"><span class="badge badge-high">P1</span><span class="text-xs font-bold text-white">최소 주문 금액/수량(MOQ)</span></div>
+              <p class="text-xs" style="color:rgba(255,255,255,.6)">전체 주문 기준? 상품별? 등급별 차등? 판매 단위(낱개/박스)?</p>
+            </div>
+          </div>
+          <div>
+            <div class="flex flex-wrap gap-1 mb-3">
+              <span class="doc-tag">회원 목록 Excel (등급 포함)</span>
+              <span class="doc-tag">등급별 할인율표</span>
+              <span class="doc-tag">회원 승인 양식 캡처</span>
+              <span class="doc-tag">MOQ 정책 문서</span>
+              <span class="doc-tag">외상거래 현황</span>
+            </div>
+            <div class="rounded-lg p-3 risk-critical mb-2">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>외상거래 존재 시</b> 프로젝트 범위 근본적 변경. 주문-결제 분리 모델, 미수금 대시보드 등 별도 Phase 분리 필수</p>
+            </div>
+            <div class="rounded-lg p-3 risk-high mb-2">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>상품별 개별 가격 매핑</b>이면 상품 500개 x 등급 5개 = 2,500행 가격 테이블. 관리자 UI 복잡도 급증</p>
+            </div>
+            <div class="rounded-lg p-3 risk-medium">
+              <p class="text-xs" style="color:rgba(255,255,255,.8)"><b>견적서/발주서 기능</b> — B2B에서 표준 기대 기능이나 제안서 미포함. 미팅에서 v1/v2 분류 필요</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: Product Data / SKU -->
+<div class="slide" id="s8">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:var(--c100);color:var(--c800);border:1px solid var(--c200)">6 / 10</div>
+        <span class="badge badge-critical">CRITICAL</span>
+      </div>
+      <h2 class="font-black mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">상품 데이터 / SKU / 재고</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-3 gap-4">
+          <div class="rounded-xl p-4" style="background:#fff;border:1.5px solid var(--c200);">
+            <div class="text-xl mb-2">📊</div>
+            <h3 class="font-bold text-xs mb-2" style="color:var(--c800)">상품 데이터 파악</h3>
+            <ul class="text-xs space-y-1" style="color:#374151">
+              <li>• 3개 몰 각각 총 상품 수?</li>
+              <li>• 옵션 구조 (독립형/조합형)?</li>
+              <li>• 카테고리 depth?</li>
+              <li>• 상세페이지 형식 (통이미지/HTML)?</li>
+              <li>• 상품 이미지 원본 보유?</li>
+            </ul>
+          </div>
+          <div class="rounded-xl p-4" style="background:#fff;border:1.5px solid var(--c200);">
+            <div class="text-xl mb-2">🔗</div>
+            <h3 class="font-bold text-xs mb-2" style="color:var(--c800)">SKU 매핑 핵심</h3>
+            <ul class="text-xs space-y-1" style="color:#374151">
+              <li>• 도매/소매 SKU 매핑 존재?</li>
+              <li>• SKU 명명 규칙?</li>
+              <li>• 도매 전용/소매 전용 상품?</li>
+              <li>• 가격 관계 (고정비율 vs 개별)?</li>
+              <li>• <b>이것이 DB 설계의 핵심</b></li>
+            </ul>
+          </div>
+          <div class="rounded-xl p-4" style="background:var(--c800);border:1.5px solid var(--c700);">
+            <div class="text-xl mb-2">📦</div>
+            <h3 class="font-bold text-xs mb-2 text-white">재고 관리 (아키텍처 핵심)</h3>
+            <ul class="text-xs space-y-1" style="color:var(--c300)">
+              <li>• <b>도매/소매 재고 통합 vs 분리?</b></li>
+              <li>• 소독차 재고 완전 독립?</li>
+              <li>• ERP/WMS 사용 여부?</li>
+              <li>• 재고 업데이트 방식?</li>
+              <li>→ 이 답변이 DB 분리 전략 결정</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-3 rounded-xl p-3" style="background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.2);">
+          <p class="text-xs" style="color:#374151"><b style="color:#ef4444">핵심:</b> SKU 매핑 + 재고 관리 방식이 확정되지 않으면 DB 스키마 설계 자체가 불가능. 제안서의 "사업자별 DB 분리" 아키텍처 유효성도 이 답변에 달려 있음</p>
+        </div>
+        <!-- Already Analyzed -->
+        <div class="mt-3 rounded-xl p-4" style="background:#fff;border:1.5px solid #86efac;">
+          <div class="flex items-center gap-2 mb-2">
+            <span style="color:#22c55e;font-size:18px;font-weight:900">&#10003;</span>
+            <h3 class="text-xs font-bold" style="color:var(--c800)">felixlab.co.kr (소매몰) — 이미 파악 완료</h3>
+          </div>
+          <div class="grid grid-cols-4 gap-4">
+            <div><div class="text-xs font-bold" style="color:#6b7280">카테고리</div><div class="text-sm font-bold" style="color:var(--c800)">3 depth</div><div class="text-xs" style="color:#6b7280">액상 > 입호흡 > 라임</div></div>
+            <div><div class="text-xs font-bold" style="color:#6b7280">상품 수</div><div class="text-sm font-bold" style="color:var(--c800)">~30개</div><div class="text-xs" style="color:#6b7280">소규모, 이관 간단</div></div>
+            <div><div class="text-xs font-bold" style="color:#6b7280">옵션 구조</div><div class="text-sm font-bold" style="color:var(--c800)">독립형</div><div class="text-xs" style="color:#6b7280">입/폐호흡 별도 상품</div></div>
+            <div><div class="text-xs font-bold" style="color:#6b7280">잔여 확인</div><div class="text-sm font-bold" style="color:#f59e0b">도매몰 + 소독차</div><div class="text-xs" style="color:#6b7280">미팅에서 확인 필요</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: Delivery / Brand / Infrastructure / Notification (4-in-1 compact) -->
+<div class="slide" id="s9">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">7~10 / 10</div>
+      </div>
+      <h2 class="font-black text-white mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;">
+        <span class="heading-line">운영 인프라 — 택배 · 디자인 · 서버 · 알림</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Delivery -->
+          <div class="rounded-xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">🚚</span>
+              <span class="text-xs font-bold text-white">택배/물류</span>
+              <span class="badge badge-high">HIGH</span>
+            </div>
+            <ul class="text-xs space-y-1" style="color:rgba(255,255,255,.65)">
+              <li>• 택배사 계약: CAFE24 제휴 vs 직접? → 독립몰 전환 시 <b>계약 공백</b></li>
+              <li>• API 범위: <b>추적만 vs 접수+추적</b>? (공수 6~10배 차이)</li>
+              <li>• 배송비 정책: 제안서에 <b>미언급</b> — 반드시 확인</li>
+              <li>• 반품/교환 프로세스: 제안서에 <b>미포함</b> — v1/v2 결정</li>
+              <li>• 출고지: 단일 vs 복수? 3PL 사용?</li>
+            </ul>
+          </div>
+          <!-- Brand/Design -->
+          <div class="rounded-xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">🎨</span>
+              <span class="text-xs font-bold text-white">브랜드/디자인</span>
+              <span class="badge badge-high">HIGH</span>
+            </div>
+            <ul class="text-xs space-y-1" style="color:rgba(255,255,255,.65)">
+              <li>• 소독차 브랜드 아이덴티티 정의 상태? (미정의 시 1~2주 추가)</li>
+              <li>• 로고 벡터 파일(AI/SVG) 보유?</li>
+              <li>• <b>기존 유지 vs 완전 리디자인</b>? (공수 2~3배 차이)</li>
+              <li>• 벤치마킹 사이트 3~5개</li>
+              <li>• 소독차 상품에 <b>펠릭스 로고/워터마크</b> 포함 여부 → 이미지 전수 교체 필요?</li>
+            </ul>
+          </div>
+          <!-- Infrastructure -->
+          <div class="rounded-xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">☁️</span>
+              <span class="text-xs font-bold text-white">서버/인프라</span>
+              <span class="badge badge-critical">CRITICAL</span>
+            </div>
+            <ul class="text-xs space-y-1" style="color:rgba(255,255,255,.65)">
+              <li>• <b>AWS vs Vercel+Supabase</b>: 미확정 시 개발 착수 불가</li>
+              <li>• 월 서버 비용 예산? (5만원 vs 30만원 → 아키텍처 완전 상이)</li>
+              <li>• 소독차 "별도 DB": 물리적 분리 vs 논리적 분리?</li>
+              <li>• 서버 관리 주체? (개발사 vs 클라이언트)</li>
+              <li>• CAFE24 병행 운영 기간?</li>
+            </ul>
+          </div>
+          <!-- Notification -->
+          <div class="rounded-xl p-4" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">💬</span>
+              <span class="text-xs font-bold text-white">알림톡/SMS</span>
+              <span class="badge badge-medium">MEDIUM</span>
+            </div>
+            <ul class="text-xs space-y-1" style="color:rgba(255,255,255,.65)">
+              <li>• 카카오 비즈니스 채널 보유? (사업자별 각각)</li>
+              <li>• 알림 시나리오: 주문확인/배송/품절 등</li>
+              <li>• SMS 발신번호 등록 현황</li>
+              <li>• 마케팅 동의 회원 이관 범위</li>
+              <li>• 월 발송 건수 (비용 산정)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Priority Matrix -->
+<div class="slide" id="s10">
+  <div class="slide-inner" style="background:var(--light-bg);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:var(--c100);color:var(--c800);border:1px solid var(--c200)">PRIORITY MATRIX</div>
+      </div>
+      <h2 class="font-black mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);color:var(--c800);line-height:1.15;">
+        <span class="heading-line">미팅 우선순위 매트릭스 TOP 10</span>
+      </h2>
+      <div class="scroll-content">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead>
+            <tr style="background:var(--c800);">
+              <th style="padding:8px 10px;text-align:left;color:#fff;width:5%">#</th>
+              <th style="padding:8px 10px;text-align:left;color:#fff;width:25%">확인 항목</th>
+              <th style="padding:8px 10px;text-align:left;color:#fff;width:8%">리스크</th>
+              <th style="padding:8px 10px;text-align:left;color:#fff;width:32%">미확정 시 영향</th>
+              <th style="padding:8px 10px;text-align:left;color:#fff;width:15%">병목 리드타임</th>
+              <th style="padding:8px 10px;text-align:left;color:#fff;width:15%">착수 차단?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--c200);">
+              <td style="padding:7px 10px;color:var(--dark)">1</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">PG 계약 성격 (종속 여부)</td>
+              <td style="padding:7px 10px"><span class="badge badge-critical">Critical</span></td>
+              <td style="padding:7px 10px;color:#374151">신규 PG 심사 5~15 영업일 대기</td>
+              <td style="padding:7px 10px;color:#374151">영업일 15일</td>
+              <td style="padding:7px 10px;color:#ef4444;font-weight:700">YES</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);background:var(--c50);">
+              <td style="padding:7px 10px;color:var(--dark)">2</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">AWS vs Vercel+Supabase</td>
+              <td style="padding:7px 10px"><span class="badge badge-critical">Critical</span></td>
+              <td style="padding:7px 10px;color:#374151">코드 구조/배포/DB 접근 전부 상이</td>
+              <td style="padding:7px 10px;color:#374151">즉시 결정</td>
+              <td style="padding:7px 10px;color:#ef4444;font-weight:700">YES</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);">
+              <td style="padding:7px 10px;color:var(--dark)">3</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">B2B 외상거래 여부</td>
+              <td style="padding:7px 10px"><span class="badge badge-critical">Critical</span></td>
+              <td style="padding:7px 10px;color:#374151">결제 아키텍처 전체 변경, 예산 초과</td>
+              <td style="padding:7px 10px;color:#374151">즉시 결정</td>
+              <td style="padding:7px 10px;color:#ef4444;font-weight:700">YES</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);background:var(--c50);">
+              <td style="padding:7px 10px;color:var(--dark)">4</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">도매/소매 재고 통합 vs 분리</td>
+              <td style="padding:7px 10px"><span class="badge badge-critical">Critical</span></td>
+              <td style="padding:7px 10px;color:#374151">DB 스키마 + 백엔드 아키텍처 결정</td>
+              <td style="padding:7px 10px;color:#374151">즉시 결정</td>
+              <td style="padding:7px 10px;color:#ef4444;font-weight:700">YES</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);">
+              <td style="padding:7px 10px;color:var(--dark)">5</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">세금계산서 API 선택</td>
+              <td style="padding:7px 10px"><span class="badge badge-critical">Critical</span></td>
+              <td style="padding:7px 10px;color:#374151">홈택스 vs 바로빌 — 인프라 선택과 연동</td>
+              <td style="padding:7px 10px;color:#374151">영업일 3~5일</td>
+              <td style="padding:7px 10px;color:#ef4444;font-weight:700">YES</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);background:var(--c50);">
+              <td style="padding:7px 10px;color:var(--dark)">6</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">도메인 등록기관 / MX 레코드</td>
+              <td style="padding:7px 10px"><span class="badge badge-critical">Critical</span></td>
+              <td style="padding:7px 10px;color:#374151">이메일 중단, 도메인 연결 불가</td>
+              <td style="padding:7px 10px;color:#374151">영업일 5일</td>
+              <td style="padding:7px 10px;color:#f59e0b;font-weight:700">PARTIAL</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);">
+              <td style="padding:7px 10px;color:var(--dark)">7</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">등급별 가격 구조</td>
+              <td style="padding:7px 10px"><span class="badge badge-high">High</span></td>
+              <td style="padding:7px 10px;color:#374151">상품 테이블 설계 공수 5배 차이</td>
+              <td style="padding:7px 10px;color:#374151">즉시 결정</td>
+              <td style="padding:7px 10px;color:#f59e0b;font-weight:700">PARTIAL</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);background:var(--c50);">
+              <td style="padding:7px 10px;color:var(--dark)">8</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">디자인 방향 (유지 vs 리디자인)</td>
+              <td style="padding:7px 10px"><span class="badge badge-high">High</span></td>
+              <td style="padding:7px 10px;color:#374151">1주차 디자인 시안 산출물 영향</td>
+              <td style="padding:7px 10px;color:#374151">즉시 결정</td>
+              <td style="padding:7px 10px;color:#f59e0b;font-weight:700">PARTIAL</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--c200);">
+              <td style="padding:7px 10px;color:var(--dark)">9</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">택배 API 연동 범위</td>
+              <td style="padding:7px 10px"><span class="badge badge-high">High</span></td>
+              <td style="padding:7px 10px;color:#374151">추적만 vs 접수+추적 — 공수 6~10배 차이</td>
+              <td style="padding:7px 10px;color:#374151">영업일 10일</td>
+              <td style="padding:7px 10px;color:#22c55e;font-weight:700">NO</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 10px;color:var(--dark)">10</td>
+              <td style="padding:7px 10px;font-weight:600;color:var(--dark)">반품/교환 프로세스 포함 여부</td>
+              <td style="padding:7px 10px"><span class="badge badge-high">High</span></td>
+              <td style="padding:7px 10px;color:#374151">주문 상태 머신 복잡도 2~3배</td>
+              <td style="padding:7px 10px;color:#374151">즉시 결정</td>
+              <td style="padding:7px 10px;color:#22c55e;font-weight:700">NO</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: Required Documents Checklist -->
+<div class="slide" id="s11">
+  <div class="slide-inner" style="background:linear-gradient(135deg,var(--c950) 0%,var(--c800) 100%);">
+    <div class="flex flex-col flex-1 px-14 pb-6 pt-10">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="section-pill" style="background:rgba(96,165,250,.15);color:var(--c300);border:1px solid rgba(96,165,250,.3)">DOCUMENTS</div>
+      </div>
+      <h2 class="font-black text-white mb-5" style="font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;">
+        <span class="heading-line">클라이언트 전달 자료 체크리스트</span>
+      </h2>
+      <div class="scroll-content">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <h3 class="text-xs font-bold mb-3" style="color:#f87171">🔴 계약 즉시 (D+0)</h3>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 사업자등록증 2부 (사업자 A, B)</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 통신판매업 신고증 2부</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ CAFE24 관리자 로그인 정보 x3</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ PG 계약서 / MID 정보</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 대표자 신분증 사본 (PG 심사용)</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 법인등기부등본 / 인감증명서</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 정산 계좌 통장 사본 x2</div>
+            </div>
+            <h3 class="text-xs font-bold mb-3" style="color:#fbbf24">🟡 1주차 내 (D+3)</h3>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 상품 목록 Excel x3 (SKU/가격/재고)</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 회원 목록 Excel (등급 포함)</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 도메인 등록기관 접속 정보</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ DNS 레코드 전체 목록</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 등급별 할인율 / 가격 정책표</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 택배사 계약 정보 / 고객코드</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 세금계산서 인증서 현황</div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold mb-3" style="color:var(--c300)">🔵 2주차 내 (D+7)</h3>
+            <div class="space-y-1.5 mb-4">
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 로고 벡터 파일 (AI/SVG) x2</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 브랜드 컬러/폰트 정보</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 벤치마킹 사이트 URL 3~5개</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 상품 이미지 원본 (고해상도)</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 카카오 비즈니스 채널 정보</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ SMS 발신번호 정보</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ 현재 배너/프로모션 이미지 원본</div>
+              <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,.8)">☐ GA/CAFE24 통계 데이터</div>
+            </div>
+            <div class="rounded-xl p-4 mt-4" style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);">
+              <h3 class="text-xs font-bold mb-2 text-white">💡 미팅 전 사전 요청 항목</h3>
+              <p class="text-xs" style="color:rgba(255,255,255,.7)">미팅 효율을 위해 <b>CAFE24 결제 설정 캡처</b>, <b>회원 통계</b>, <b>상품 수</b>를 미팅 전 메일로 사전 요청하면 미팅 시간을 의사결정에 집중할 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12: Next Steps -->
+<div class="slide" id="s12">
+  <div class="slide-inner" style="background:linear-gradient(145deg,var(--c950) 0%,var(--c800) 55%,var(--c900) 100%);">
+    <div class="flex flex-col items-center justify-center flex-1 text-center px-8">
+      <div class="text-5xl mb-6" style="filter:drop-shadow(0 0 24px rgba(96,165,250,0.4))">🚀</div>
+      <h2 class="font-black text-white mb-6" style="font-size:clamp(1.8rem,4vw,3rem);line-height:1.15;">
+        미팅 후 즉시 실행 항목
+      </h2>
+      <div class="grid grid-cols-3 gap-5 mb-8" style="max-width:800px;">
+        <div class="rounded-2xl p-5 text-left" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);">
+          <div class="text-xs font-bold mb-2" style="color:#f87171">D+0 (당일)</div>
+          <ul class="text-xs space-y-1.5" style="color:rgba(255,255,255,.75)">
+            <li>• PG 심사 서류 접수</li>
+            <li>• CAFE24 API Key 발급</li>
+            <li>• 인프라 결정 → 계정 생성</li>
+            <li>• 도메인 WHOIS 조회</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-5 text-left" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);">
+          <div class="text-xs font-bold mb-2" style="color:#fbbf24">D+1~3 (1주차)</div>
+          <ul class="text-xs space-y-1.5" style="color:rgba(255,255,255,.75)">
+            <li>• 데이터 추출 시작</li>
+            <li>• DB 스키마 설계</li>
+            <li>• 디자인 시안 착수</li>
+            <li>• 이미지 CDN 마이그레이션</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl p-5 text-left" style="background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);">
+          <div class="text-xs font-bold mb-2" style="color:var(--c300)">D+5~7 (2주차)</div>
+          <ul class="text-xs space-y-1.5" style="color:rgba(255,255,255,.75)">
+            <li>• PG 심사 결과 확인</li>
+            <li>• 퍼블리싱 시작</li>
+            <li>• 결제 연동 개발</li>
+            <li>• 세금계산서 API 연동</li>
+          </ul>
+        </div>
+      </div>
+      <div class="h-px w-48 mb-6" style="background:linear-gradient(90deg,transparent,var(--c400),transparent)"></div>
+      <p class="text-sm" style="color:rgba(255,255,255,.45);">원클릭사이트제작 · 계약 미팅 체크리스트 · 2026.03.25</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div id="nav">
+  <button class="nav-btn" onclick="go(-1)" aria-label="Previous">&#8592;</button>
+  <span id="counter">1 / 18</span>
+  <button class="nav-btn" onclick="go(1)" aria-label="Next">&#8594;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let cur = 0;
+  const bar = document.getElementById('progress-bar');
+  const counter = document.getElementById('counter');
+
+  function show(n) {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i === n) s.classList.add('active');
+      else if (i < n) s.classList.add('prev');
+    });
+    bar.style.width = ((n + 1) / slides.length * 100) + '%';
+    counter.textContent = (n + 1) + ' / ' + slides.length;
+  }
+
+  function go(d) {
+    cur = Math.max(0, Math.min(slides.length - 1, cur + d));
+    show(cur);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+
+  let touchX = 0;
+  document.addEventListener('touchstart', e => touchX = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  });
+
+  show(0);
+</script>
+</body>
+</html>
